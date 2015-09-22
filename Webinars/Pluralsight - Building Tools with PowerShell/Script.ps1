@@ -1,12 +1,4 @@
-﻿## Demo cleanup
-#Get-ADUser adbertram | remove-aduser -Confirm:$false
-#Get-ADUser abertram | remove-aduser -Confirm:$false
-#Get-ADUser jmurphy | remove-aduser -Confirm:$false
-#Get-ADComputer adamcomputer | Remove-ADComputer -confirm:$false
-#Get-ADComputer joecomputer | Remove-ADComputer -confirm:$false
-#################
-
-## Example Active Directory Account Automator #1: A Script ##
+﻿## Example Active Directory Account Automator #1: A Script ##
 
 $Employees = Import-Csv -Path C:\Users.csv ## BAD: File path in the script itself
 foreach ($Employee in $Employees)
@@ -48,11 +40,3 @@ foreach ($Employee in $Employees)
 	New-ADComputer -Name $Employee.Computername -Path 'OU=Corporate Computers,DC=lab,DC=local'
 	#endregion
 }
-
-## Check to ensure the script did what I thought it should
-#dsa.msc
-#Get-ADUser -Filter { GivenName -eq 'Adam' -and SurName -eq 'Bertram'} -Properties Initials,Department,Title
-#Get-ADUser -Filter { GivenName -eq 'Joe' -and SurName -eq 'Murphy'} -Properties Initials,Department,Title
-#Get-ADGroupMember -Identity 'Gigantic Corporation Inter-Intra Synergy Group'
-#Get-ADComputer -Filter {Name -eq 'ADAMCOMPUTER'}
-#Get-ADComputer -Filter {Name -eq 'JOECOMPUTER'}

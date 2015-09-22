@@ -10,7 +10,7 @@ param (
 	[Parameter()]
 	[ValidateNotNullOrEmpty()]
 	[ValidateScript({ Test-Path -Path $_ -PathType Leaf })] ## Validation
-	[string]$FunctionsScript = '.\AdAccountManagementAutomator.ps1'
+	[string]$FunctionsScript = "C:\Dropbox\Powershell\GitRepos\Session-Content\Webinars\Pluralsight - Building Tools with PowerShell\AdAccountManagementAutomator.ps1"
 )
 
 try
@@ -33,17 +33,23 @@ try
 					'MiddleInitial' = $Employee.MiddleInitial
 					'LastName' = $Employee.LastName
 					'Title' = $Employee.Title
+                    'Department' = $Employee.Department
+                    'Verbose' = $VerbosePreference
 				}
 				if ($Employee.UserOU)
 				{
 					$NewUserParams.Location = $Employee.UserOU
 				}
 
-				New-EmployeeOnboardUser @NewUserParams
+				New-EmployeeOnboardUser @NewUserParams 
 				#endregion
 				
+                $newComputersParams = @{
+                    'ComputerName' = $Employee.Computername
+                    'Verbose' = $VerbosePreference
+                }
 				#region Create the employee's AD computer account
-				New-EmployeeOnboardComputer -Computername $Employee.Computername
+				New-EmployeeOnboardComputer @newComputersParams
 				#endregion
 			}
 			catch
