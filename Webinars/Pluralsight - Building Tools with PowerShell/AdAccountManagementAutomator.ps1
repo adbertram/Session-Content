@@ -16,7 +16,9 @@
 		The middle initial of the employee
 	.PARAMETER Location
 		The organizational unit in distinguished name syntax where the user account will be created.
-	.PARAMETER Title
+	.PARAMETER Department
+        The internal department this employee is in.
+    .PARAMETER Title
 		The current job title of the employee
 	.PARAMETER DefaultGroup
 		The name of the group that the user account will become a member of.
@@ -41,6 +43,10 @@
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
 		[string]$Location = 'OU=Corporate Users',
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]$Department,
 	
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
@@ -105,6 +111,7 @@
 			'GivenName' = $FirstName
 			'Surname' = $LastName
 			'Title' = $Title
+            'Department' = $Department
 			'SamAccountName' = $Username
 			'AccountPassword' = (ConvertTo-SecureString $DefaultPassword -AsPlainText -Force)
 			'Enabled' = $true

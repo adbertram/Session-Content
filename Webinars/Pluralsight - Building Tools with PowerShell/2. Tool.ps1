@@ -1,13 +1,15 @@
-﻿[CmdletBinding()]
+﻿## Example Active Directory Account Automator #1: A Tool ##
+
+[CmdletBinding()] ## We're talkin' advanced here
 param (
-	[Parameter(Mandatory)]
+	[Parameter(Mandatory)] ## Parameters are a great way to prevent from modifying the script
 	[ValidateNotNullOrEmpty()]
-	[ValidateScript({ Test-Path -Path $_ -PathType Leaf })]
+	[ValidateScript({ Test-Path -Path $_ -PathType Leaf })] ## Validation
 	[string]$EmployeesCsv,
 
 	[Parameter()]
 	[ValidateNotNullOrEmpty()]
-	[ValidateScript({ Test-Path -Path $_ -PathType Leaf })]
+	[ValidateScript({ Test-Path -Path $_ -PathType Leaf })] ## Validation
 	[string]$FunctionsScript = '.\AdAccountManagementAutomator.ps1'
 )
 
@@ -25,6 +27,7 @@ try
 			try ## A try/catch blog to catch errors
 			{
 				#region Create AD user account and add to standard group
+                ## Far fewer parameters
 				$NewUserParams = @{
 					'FirstName' = $Employee.FirstName
 					'MiddleInitial' = $Employee.MiddleInitial
@@ -35,7 +38,7 @@ try
 				{
 					$NewUserParams.Location = $Employee.UserOU
 				}
-				## Grab the username created to use for Set-MyAdUser
+
 				New-EmployeeOnboardUser @NewUserParams
 				#endregion
 				
@@ -56,5 +59,5 @@ try
 }
 catch
 {
-	Write-Error $_.Exception.Message
+	Write-Error $_.Exception.Message ## Error handling
 }
