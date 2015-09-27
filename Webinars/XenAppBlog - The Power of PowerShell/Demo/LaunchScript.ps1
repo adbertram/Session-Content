@@ -47,11 +47,7 @@ param(
 
 $ErrorActionPreferences = 'Stop'
 try {
-	#region Configuration Values
-
-	#endregion
-
-	#region Testing the waters
+	#region Ensure the install folder, the SoftwareInstallManager module and deployment script are OK
 	## Test to ensure our shared module exists where we think it does
 	if (-not (Test-Path -Path $ModuleFilePath -PathType Leaf)) {
 		throw "SoftwareInstallManager module: BAD"
@@ -116,6 +112,7 @@ try {
 	## available and PS remoting is working
 	foreach ($pc in $Client) {
 		try {
+            #region Testing connectivity, c$ share and PS remoting
 			if (-not (Test-Connection -ComputerName $pc -Quiet -Count 1)) {
 				throw "$pc`: OFFLINE"
 				continue
@@ -123,7 +120,7 @@ try {
 				Write-Verbose -Message "$pc`: ONLINE"
 				## Convert the mydeployment local path to a UNC so it can be tested and created
 				$RemoteFilePathDrive = ($ClientDeploymentFolder | Split-Path -Qualifier).TrimEnd(':')
-				$RemoteServerSideClientServerSideClientDeploymentFolderPath = "\\$pc\$RemoteFilePathDrive`$$($ClientDeploymentFolder | Split-Path -NoQualifier)"
+				$UncClientFolder = "\\$pc\$RemoteFilePathDrive`$$($ClientDeploymentFolder | Split-Path -NoQualifier)"
 				if (-not (Test-Path -Path "\\$pc\c$")) {
 					throw "$pc`: C`$ share is NOT available"
 					continue
@@ -134,15 +131,17 @@ try {
 						continue
 					} else {
 						Write-Verbose -Message "$pc`: PS Remoting OK"
+            #endregion
+            #region Copy files and initiate deployment
 						if ($PsCmdlet.ShouldProcess($pc,'Invoke deployment on client')) {
-							if (-not (Test-Path -Path $RemoteServerSideClientServerSideClientDeploymentFolderPath -PathType Container)) {
+							if (-not (Test-Path -Path $UncClientFolder -PathType Container)) {
 								Write-Verbose -Message "The deployment folder $ClientDeploymentFolder does not exist on client $pc. Creating it."
-								$null = mkdir $RemoteServerSideClientServerSideClientDeploymentFolderPath
+								$null = mkdir $UncClientFolder
 							}
 							Write-Verbose -Message "$pc`: Copying deployment scripts to client"
-							Copy-Item -Path $SwPackagePath\* -Destination $RemoteServerSideClientServerSideClientDeploymentFolderPath -Force
+							Copy-Item -Path $SwPackagePath\* -Destination $UncClientFolder -Force
 							Write-Verbose -Message "$pc`: Copying module folder to client"
-							Copy-Item -Path $ModuleFolderPath\* -Destination $RemoteServerSideClientServerSideClientDeploymentFolderPath -Force -Recurse
+							Copy-Item -Path $ModuleFolderPath\* -Destination $UncClientFolder -Force -Recurse
 							Write-Verbose -Message "$pc`: Launching deployment script"
 							$null = Invoke-Command -ComputerName $pc -ScriptBlock { & "$using:ClientDeploymentFolder\$using:Type.ps1" } -AsJob -ThrottleLimit 5
 							Write-Verbose -Message "$pc`: Deployment script launched"	
@@ -150,6 +149,7 @@ try {
 					}
 				}
 			}
+            #endregion
 		} catch {
 			Write-Warning "$pc - $($_.Exception.Message)"
 		}

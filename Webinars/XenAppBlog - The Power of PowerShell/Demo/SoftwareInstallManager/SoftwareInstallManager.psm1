@@ -899,7 +899,7 @@ function Get-InstalledSoftware
 		
 		[Parameter()]
 		[ValidateNotNullOrEmpty()]
-		[pscredential]$Credential,
+		[System.Management.Automation.PSCredential]$Credential,
 		
 		[string]$Name,
 		
@@ -975,8 +975,8 @@ function Get-InstalledSoftware
 								{
 									$output.GUID = $SwKey.PSChildName
 								}
-								New-Object –TypeName PSObject –Prop $output
-							}
+								[pscustomobject]$output							
+                            }
 						}
 					}
 				}
