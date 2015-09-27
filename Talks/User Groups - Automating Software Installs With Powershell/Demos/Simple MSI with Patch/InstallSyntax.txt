@@ -1,8 +1,0 @@
-Install Silent
-msiexec /i AcroRead.msi TRANSFORMS=AcroRead.mst /qn /l*v C:\Windows\Temp\AdobeReaderInstall.log
-
-Patch Silent
-msiexec.exe /p AdbeRdrUpd11010.msp /qn REINSTALLMODE="ecmus" REINSTALL="ALL"
-
-From within an OSD Task Sequence, the Install and Patch (Transforms/MST and Patch/MSP)can't be run in the same step. 
-Two Programs were created and run sequentially as a workaround.

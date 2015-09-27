@@ -1,0 +1,1 @@
+& .\LaunchScript.ps1 -Client '','' -DeploymentFolderPath '.' -Type Uninstall -Verbose

@@ -1,7 +1,6 @@
 Import-Module C:\MyDeployment\SoftwareInstallManager.psm1
 Start-Log
 $WorkingDir = $MyInvocation.MyCommand.Path | Split-Path -Parent
-Start-Log
 
 try
 {

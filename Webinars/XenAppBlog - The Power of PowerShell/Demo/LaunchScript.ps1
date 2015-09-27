@@ -37,7 +37,7 @@ param(
 	[ValidateScript( { Test-Path -Path $_ -PathType Container })]
 	[string]$SwPackagePath,
 	[Parameter()]
-	[string]$ModuleFolderPath = 'C:\Demos',
+	[string]$ModuleFolderPath = 'C:\Dropbox\GitRepos\Session-Content\Webinars\XenAppBlog - The Power of PowerShell\Demo\SoftwareInstallManager',
 	[Parameter()]
 	[ValidateScript({ Test-Path -Path $_ -PathType Leaf })]
 	[string]$ModuleFilePath = "$ModuleFolderPath\SoftwareInstallManager.psm1",
