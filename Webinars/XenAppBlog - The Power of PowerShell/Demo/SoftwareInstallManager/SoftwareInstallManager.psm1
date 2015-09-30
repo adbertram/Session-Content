@@ -1201,7 +1201,7 @@ function Install-Software
 				
 			}
 			
-			## Thiw was added for upgrade scenarios where the previous version would be running and the installer
+			## This was added for upgrade scenarios where the previous version would be running and the installer
 			## itself isn't smart enough to kill it.
 			if ($PSBoundParameters.ContainsKey('KillProcess'))
 			{

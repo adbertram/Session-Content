@@ -1,16 +1,17 @@
 ﻿#region Demo Setup (DEMO purposes only)
-## Start up the clients and restore the latest snaps
 $vms = Get-VM -ComputerName hyperv -Name 'win7x64','win8x86'
 $vms | Start-VM
 $vms | Get-VMSnapshot | Restore-VMSnapshot -Confirm:$false
+del '\\win7x64\c$\windows\temp\*' -Recurse -ea SilentlyContinue
+del '\\WIN81X86-1\c$\windows\temp\*' -Recurse -ea SilentlyContinue
+$DemoPath = 'C:\Dropbox\GitRepos\Session-Content\Webinars\XenAppBlog - The Power of PowerShell\Demo'
 ise "$DemoPath\LaunchScript.ps1"
 ise "$DemoPath\SoftwareInstallManager\SoftwareInstallManager.psm1"
 ise "$DemoPath\NSClient++\install.ps1"
 #endregion
 
-$DemoPath = 'C:\Dropbox\GitRepos\Session-Content\Webinars\XenAppBlog - The Power of PowerShell\Demo'
-
 ## Check out the Software package path
+start "$DemoPath\NSClient++"
 
 ## Launch the deployment
 & "$DemoPath\LaunchScript.ps1" -Client 'WIN7X64','WIN81x86-1' -Type Install -SwPackagePath "$DemoPath\NSClient++" -Verbose
