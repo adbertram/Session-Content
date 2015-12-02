@@ -9,6 +9,7 @@ $files = [ordered]@{
 	'SharedManagementObjects.msi' = 'http://go.microsoft.com/fwlink/?LinkID=239659&clcid=0x409' # Microsoft® SQL Server® 2012 Shared Management Objects (x64)
 	'PowerShellTools.msi' = 'http://go.microsoft.com/fwlink/?LinkID=239656&clcid=0x409' # Microsoft® Windows PowerShell Extensions for Microsoft® SQL Server® 2012 (x64)
 	'azure-powershell.0.9.8.msi' = 'https://github.com/Azure/azure-powershell/releases/download/v0.9.8-September2015/azure-powershell.0.9.8.msi' # Azure PowerShell module
+	'ConvertDataRow-ToXml.ps1' = 'https://github.com/adbertram/Random-PowerShell-Work/blob/master/Database-Datasets/ConvertDataRow-ToXml.ps1'
 }
 
 #region Create the download folder
