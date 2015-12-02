@@ -35,7 +35,6 @@ param
 process {
 	try
 	{
-		return
 		if (-not $PSBoundParameters.ContainsKey('SccmModulePath')) {
 			$SccmModulePath = "$(Split-Path $env:SMS_ADMIN_UI_PATH -Parent)\ConfigurationManager.psd1"
 		}

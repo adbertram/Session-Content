@@ -1,12 +1,10 @@
 ﻿<# Problems
-
 1. No help
 2. No advanced function
 3. No parameters for the module.
 4. No validation --too many assumptions
 5. No logging
 6. No error handling
-
 #>
 
 Import-Module "C:\Program Files (x86)\Microsoft Configuration Manager\AdminConsole\bin\ConfigurationManager.psd1"
