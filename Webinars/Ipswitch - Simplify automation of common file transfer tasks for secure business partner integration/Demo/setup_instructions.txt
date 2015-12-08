@@ -1,0 +1,27 @@
+In order to mimic what was demonstrated in the IPswitch webinar in your environment, you'll need to be sure a few prerequisites are met and tasks performed. Before attempting to run the Convert-AzureSQLTableToXml.ps1 script please be sure you have the following in place on the computer in which the script will be run.
+
+Environment
+
+In order to query an Azure SQL Database you will need to have an Azure subscription, an Azure SQL database server, a database created on that server and at least one table to query. You will also need to ensure that a firewall port has been opened on your Azure SQL database server for the public IP address that will be initiating the connection.  To find this, on the computer in which you will be executing the script, go to whatismyip.com. Record this IP address and create a firewall rule either by using the Azure Portal or by using PowerShell (New-AzureSqlDatabaseServerFirewallRule -ServerName 'YOURSQLSERVER' -RuleName 'RULENAMEHERE' -StartIpAddress 1.1.1.1 -EndIpAddress 1.1.1.1) replacing the 1.1.1.1 with your public IP address.
+
+Software Installed
+
+I've supplied a Install-DemoPrereqs.ps1 script that will automatically install this software for you. However, if, for some reason, the script does not work these steps will have to be done manually.
+
+1. Microsoft® System CLR Types for Microsoft® SQL Server® 2012 (x64)
+  - http://go.microsoft.com/fwlink/?LinkID=239644&clcid=0x409
+2. Microsoft® SQL Server® 2012 Shared Management Objects (x64)
+  - http://go.microsoft.com/fwlink/?LinkID=239659&clcid=0x409
+3. Microsoft® Windows PowerShell Extensions for Microsoft® SQL Server® 2012 (x64)
+  - http://go.microsoft.com/fwlink/?LinkID=239656&clcid=0x409
+
+NOTE: If you have a PowerShell console opened while installing these please restart the console afterwards.
+
+Tasks
+
+1. Move the folder C:\Program Files\Microsoft SQL Server\110\Tools\PowerShell\Modules\SQLPS to C:\Windows\System32\WindowsPowerShell\v1.0\Modules. This is necessary in order for MOVEit to see the PowerShell module due to the user context is it running in.
+
+2. In a PowerShell console, unblock the PowerShell script by running Unblock-File <PathToScript>\Convert-AzureSQLTableToXml.ps1.
+
+
+
