@@ -1,4 +1,4 @@
-﻿#Requires -Module SQLPS
+﻿#Requires -Module SQLPS -RunAsAdministrator
 
 [CmdletBinding()]
 
