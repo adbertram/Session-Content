@@ -1,3 +1,11 @@
+<# 
+
+This is a demonstration script used for the IPswitch MOVEit webinar. It is not meant to be used
+in your environment directly but is provided as-is to show you examples of how to execute the script
+we're demonstrating.
+
+#>
+
 #region Demo setup
 $demoFolder = 'C:\Users\administrator.MYLAB\Dropbox\GitRepos\Session-Content\Webinars\Ipswitch - Simplify automation of common file transfer tasks for secure business partner integration\Demo'
 #endregion
@@ -15,7 +23,7 @@ control appwiz.cpl
 ise "$demoFolder\Convert-AzureSQLTableToXml.ps1"
 
 ## Run the conversion script. This script will query an Azure SQL database and pull down all rows in a table. 
-## It will then convert those rows in XML and finally save the XML as C:\Users.xml to the local computer.
+## It will then convert those rows in XML and finally save the XML as C:\IpswitchDemo\Users.xml to the local computer.
 
 $scriptParameters = @{
 	'WarningAction' = 'SilentlyContinue'

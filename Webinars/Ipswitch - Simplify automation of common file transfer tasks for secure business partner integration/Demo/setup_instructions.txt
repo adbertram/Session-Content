@@ -21,7 +21,9 @@ Tasks
 
 1. Move the folder C:\Program Files\Microsoft SQL Server\110\Tools\PowerShell\Modules\SQLPS to C:\Windows\System32\WindowsPowerShell\v1.0\Modules. This is necessary in order for MOVEit to see the PowerShell module due to the user context is it running in.
 
-2. In a PowerShell console, unblock the PowerShell script by running Unblock-File <PathToScript>\Convert-AzureSQLTableToXml.ps1.
+2. In a PowerShell console, set the execution policy to Unrestricted: Set-ExecutionPolicy Unrestricted
+
+3. In a PowerShell console, unblock the PowerShell script by running Unblock-File <PathToScript>\Convert-AzureSQLTableToXml.ps1.
 
 
 
