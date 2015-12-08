@@ -7,7 +7,7 @@ we're demonstrating.
 #>
 
 #region Demo setup
-$demoFolder = 'C:\Users\administrator.MYLAB\Dropbox\GitRepos\Session-Content\Webinars\Ipswitch - Simplify automation of common file transfer tasks for secure business partner integration\Demo'
+$demoFolder = 'C:\IpSwitchDemo'
 #endregion
 
 ## Show the prereq install script
