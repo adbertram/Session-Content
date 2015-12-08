@@ -31,10 +31,7 @@ foreach ($file in $files.GetEnumerator())
 #endregion
 
 #region Move the SQLPS module to the system-level module path (MOVEit will look inside this when execting the task)
-$paths = 'C:\Program Files\Microsoft SQL Server\110\Tools\PowerShell\Modules\SQLPS'
-$paths += 'C:\Program Files\Microsoft SQL Server\110\Tools\PowerShell\Modules\SQLPS'
-foreach ($path in $paths)
-{
-	Move-Item -Path	$path -Destination 'C:\Windows\System32\WindowsPowerShell\v1.0\Modules'
-}
+
+Move-Item -Path 'C:\Program Files\Microsoft SQL Server\110\Tools\PowerShell\Modules\SQLPS' -Destination 'C:\Windows\System32\WindowsPowerShell\v1.0\Modules'
+
 #endregion

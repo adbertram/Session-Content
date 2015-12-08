@@ -26,5 +26,6 @@ Tasks
 3. In a PowerShell console, unblock the PowerShell scripts by running Unblock-File <PathToScript>\Convert-AzureSQLTableToXml.ps1 and
    Unblock-File <PathToScript>\Install-DemoPrerequisites.ps1
 
+4. Ensure you open the PowerShell console as administrator when executing the script.
 
 
