@@ -23,7 +23,8 @@ Tasks
 
 2. In a PowerShell console, set the execution policy to Unrestricted: Set-ExecutionPolicy Unrestricted
 
-3. In a PowerShell console, unblock the PowerShell script by running Unblock-File <PathToScript>\Convert-AzureSQLTableToXml.ps1.
+3. In a PowerShell console, unblock the PowerShell scripts by running Unblock-File <PathToScript>\Convert-AzureSQLTableToXml.ps1 and
+   Unblock-File <PathToScript>\Install-DemoPrerequisites.ps1
 
 
 
