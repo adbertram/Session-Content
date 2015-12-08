@@ -163,8 +163,8 @@ function ConvertDataRow-ToXml
 
 ## Create the XML file from the Azure SQL table 'Users'  The ObjectType is the object template that all rows in the Azure SQL table are. ie. In this example,
 ## I have a table of user information, object type is User.
-Write-Output "Converting [$($sqlRows.Count)] rows into the XML file [$($XmlFilePath)]"
-$xmlFile = $sqlRows | ConvertDataRow-ToXml -ObjectType User -Path $XmlFilePath
+Write-Output "Converting [$($sqlRows.Count)] rows into the XML file [$($OutputFilePath)]"
+$xmlFile = $sqlRows | ConvertDataRow-ToXml -ObjectType User -Path $OutputFilePath
 
 #endregion
 
