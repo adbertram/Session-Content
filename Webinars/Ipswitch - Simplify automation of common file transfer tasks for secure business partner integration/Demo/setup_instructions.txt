@@ -14,8 +14,8 @@ I've supplied a Install-DemoPrereqs.ps1 script that will automatically install t
   - http://go.microsoft.com/fwlink/?LinkID=239659&clcid=0x409
 3. Microsoft® Windows PowerShell Extensions for Microsoft® SQL Server® 2012 (x64)
   - http://go.microsoft.com/fwlink/?LinkID=239656&clcid=0x409
-
-NOTE: If you have a PowerShell console opened while installing these please restart the console afterwards.
+4. Windows PowerShell version 4.0
+  - https://www.microsoft.com/en-us/download/details.aspx?id=40855
 
 Tasks
 
