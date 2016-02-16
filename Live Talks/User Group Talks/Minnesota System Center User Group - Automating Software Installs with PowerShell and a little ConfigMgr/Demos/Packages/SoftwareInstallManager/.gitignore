@@ -1,0 +1,12 @@
+
+*TempPoint.psm1
+
+*.psprojs
+
+*.psproj.*
+
+*.psproj
+
+*.RestorePoint.*
+
+SoftwareInstallManager.TempPoint.psd1
