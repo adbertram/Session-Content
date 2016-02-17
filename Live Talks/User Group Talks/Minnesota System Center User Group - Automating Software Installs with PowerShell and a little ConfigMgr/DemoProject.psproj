@@ -37,6 +37,7 @@
     <File ReferenceName="" Build="2">Demos\Packages\SoftwareInstallManager\UserProfiles.psm1</File>
     <File ReferenceName="" Build="2">Demos\Packages\SoftwareInstallManager\WindowsInstaller.psm1</File>
     <File ReferenceName="" Build="2">Demos\Packages\SoftwareInstallManager\WindowsServices.psm1</File>
+    <File ReferenceName="" Build="2" CommandExtension="False">Demos\Start-Demo.ps1</File>
   </Files>
   <DeployMode>Project</DeployMode>
   <PrimaryFile>

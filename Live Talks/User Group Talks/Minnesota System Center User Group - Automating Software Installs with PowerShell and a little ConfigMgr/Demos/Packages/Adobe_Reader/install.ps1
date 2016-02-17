@@ -2,7 +2,7 @@ Import-Module \\MEMBERSRV1\Packages\SoftwareInstallManager
 Start-Log
 $WorkingDir = $MyInvocation.MyCommand.Path | Split-Path -Parent
 
-## This upgrade example shows calling the already built uinstall script,
+## This upgrade example shows calling the already built uninstall script,
 ## testing for the existing of critical files in the upgrade script
 ## and finally installing a simple MSI.  The simple MSI install method was
 ## found to not be sufficient because the EULA comes up at first run
