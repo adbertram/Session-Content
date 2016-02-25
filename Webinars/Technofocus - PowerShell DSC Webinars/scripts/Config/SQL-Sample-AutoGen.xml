@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Pay-As-You-Go" ServiceName="sp-csyxzp" StorageAccount="spstorageleq3wo" Location="South Central US" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount UserName="spadmin" Password="ievhtmkq7q0!" Type="WindowsLocal" Create="No" />
+    <!--Account used to create VMs-->
+    <ServiceAccount UserName="corp\spadmin" Password="ievhtmkq7q0!" Type="WindowsDomain" Create="No" />
+    <!--Account used to connect to AD-->
+    <ServiceAccount UserName="spadmin" Password="ievhtmkq7q0!" Type="SQL" />
+  </ServiceAccounts>
+  <Connections>
+    <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com" DomainControllerVM="DC500" ServiceAccountName="corp\spadmin" ServiceName="sp-csyxzp" />
+  </Connections>
+  <AzureVMGroups>
+    <VMRole Name="SQLServers" VMSize="Large" StartingImageName="fb83b3509582419d99629ce476bcb5c8__SQL-Server-2012-SP2-11.0.5569.0-Ent-ENU-Win2012-cy15su04" DataDiskSizesInGB="Data:20;Log:10" DefaultSQLDataFolder="F:\Data" DefaultSQLLogFolder="G:\Logs" SubnetNames="AppSubnet" ServiceAccountName="spadmin">
+      <AzureVM Name="SQL500" />
+    </VMRole>
+  </AzureVMGroups>
+  <SQLCluster Name="SQLStandalone" InstallerDomainUsername="corp\spadmin" InstallerDatabaseUserName="spadmin" />
+</Azure>

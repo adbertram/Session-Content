@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Pay-As-You-Go" ServiceName="sp-csyxzp" StorageAccount="spstorageleq3wo" Location="South Central US" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount Username="corp\spadmin" Password="ievhtmkq7q0!" Type="WindowsDomain" Create="No" />
+    <!--Account used to connect to AD-->
+    <ServiceAccount UserName="spadmin" Password="ievhtmkq7q0!" Type="WindowsLocal" Create="No" />
+    <!--Account used to create VM-->
+  </ServiceAccounts>
+  <Connections>
+    <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com" DomainControllerVM="DC1" ServiceAccountName="corp\spadmin" ServiceName="sp-csyxzp" />
+  </Connections>
+  <AzureVMGroups>
+    <VMRole Name="IISServers" StartingImageName="a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20160126-en.us-127GB.vhd" VMSize="Small" SubnetNames="AppSubnet" AdminUsername="spadmin" DataDiskSizesInGB="Data:20">
+      <AzureVM Name="IIS500">
+        <Endpoint Name="web" Protocol="tcp" LocalPort="80" PublicPort="80" LBSetName="" ProbePort="" ProbeProtocol="" ProbePath="" />
+      </AzureVM>
+    </VMRole>
+  </AzureVMGroups>
+</Azure>

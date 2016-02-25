@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<NetworkConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/ServiceHosting/2011/07/NetworkConfiguration">
+  <VirtualNetworkConfiguration>
+    <VirtualNetworkSites>
+      <VirtualNetworkSite name="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+        <AddressSpace>
+          <AddressPrefix>10.20.0.0/16</AddressPrefix>
+        </AddressSpace>
+        <Subnets>
+          <Subnet name="AppSubnet">
+            <AddressPrefix>10.20.1.0/24</AddressPrefix>
+          </Subnet>
+          <Subnet name="DCSubnet">
+            <AddressPrefix>10.20.2.0/24</AddressPrefix>
+          </Subnet>
+        </Subnets>
+      </VirtualNetworkSite>
+    </VirtualNetworkSites>
+  </VirtualNetworkConfiguration>
+</NetworkConfiguration>

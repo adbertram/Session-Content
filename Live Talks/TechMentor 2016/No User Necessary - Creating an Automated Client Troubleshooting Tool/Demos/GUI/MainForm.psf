@@ -1335,6 +1335,9 @@ $startToolStripMenuItem_Click={
 	
 }
 ]]></Code>
+  <Bookmarks />
+  <BreakPoints />
+  <TracePoints />
   <Mode>1</Mode>
   <Assemblies>
     <Assembly>mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</Assembly>

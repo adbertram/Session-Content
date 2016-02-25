@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="{SUBSCRIPTION NAME}" ServiceName="{CLOUD SERVICE NAME}" StorageAccount="{STORAGE ACCOUNT}" Location="{LOCATION}" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+  	<ServiceAccount UserName="{ADMIN ACCOUNT}" Password="{PASSWORD}" />
+  </ServiceAccounts>
+  <AzureVNet CreateVNET="true" NetworkConfigFileName="NetworkConfig.xml" />
+  <AzureVMGroups>
+    <VMRole Name="DomainControllers" StartingImageName="{WINDOWS SERVER 2012 IMAGE}" 
+                  VMSize="Small" SubnetNames="DCSubnet" ServiceAccountName="{ADMIN ACCOUNT}" AvailabilitySet="DCSet" DataDiskSizesInGB="Data:20;Log:10">
+      <AzureVM Name="DC1" DCType="NewForest" >
+	  </AzureVM>
+    </VMRole>    
+  </AzureVMGroups>
+  <ActiveDirectory Domain="{DOMAIN}" DnsDomain="{DNS DOMAIN}" >
+  </ActiveDirectory>  
+</Azure>

@@ -71,7 +71,6 @@ begin {
 			Import-Module "$(Split-Path $env:SMS_ADMIN_UI_PATH -Parent)\ConfigurationManager.psd1"
 		}
 		Write-Verbose 'Performing prereq setup things...'
-		$Location = (Get-Location).Path
 		
 		## Replace any spaces in the attributes with backspaces
 		$PackageFolderName = "$($Manufacturer.Replace(' ','_'))_$($Name.Replace(' ','_'))_$($SoftwareVersion.Replace(' ','_'))"

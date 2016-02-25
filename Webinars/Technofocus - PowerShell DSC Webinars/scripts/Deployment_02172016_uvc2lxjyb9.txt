@@ -1,0 +1,290 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20160217140226
+Username: WINFUSIONVM\Adam
+RunAs User: WINFUSIONVM\Adam
+Machine: WINFUSIONVM (Microsoft Windows NT 10.0.10586.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 236
+PSVersion: 5.0.10586.63
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0.10586.63
+BuildVersion: 10.0.10586.63
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+  Please select a Region
+
+   1:   US East          (Virginia)
+   2:   US West          (California)
+   3:   US North Central (Illinois)
+   4:   US South Central (Texas)
+   5:   Europe North     (Ireland)
+   6:   Europe West      (Netherlands)
+
+
+
+Generating information
+   Admin password cwxtkgb4hd0!
+   App Pool password cwxtkgb4hd0!
+   Cloud Service Name sp-wm4rlq
+   Creating new storage account spstoragersvjng in East US
+New-AzureStorageAccount : BadRequest: The location constraint is not valid
+OperationID : '5a9c0dab7fad7438bdcfcef87037e3af'
+At C:\Dropbox\GitRepos\Session-Content\Webinars\Technofocus - PowerShell DSC 
+Webinars\scripts\SharedComponents\autoconfigure.ps1:375 char:16
++ ...             New-AzureStorageAccount -StorageAccountName $storageAccou ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : CloseError: (:) [New-AzureStorageAccount], ComputeCloudException
+    + FullyQualifiedErrorId : 
+Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices.NewAzureStorageAccountCommand
+New-AzureStorageAccount : BadRequest: The location constraint is not valid
+OperationID : '5a9c0dab7fad7438bdcfcef87037e3af'
+At C:\Dropbox\GitRepos\Session-Content\Webinars\Technofocus - PowerShell DSC Webinars\scripts\SharedComponents\autoconfigure.ps1:375
+char:16
++ ...             New-AzureStorageAccount -StorageAccountName $storageAccou ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : CloseError: (:) [New-AzureStorageAccount], ComputeCloudException
+    + FullyQualifiedErrorId : Microsoft.WindowsAzure.Commands.ServiceManagement.StorageServices.NewAzureStorageAccountCommand
+
+... Completed
+Complete
+Setting configuration(s)
+   AD Configuration File
+PS: adamtheautomator.com> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+>> TerminatingError(): "The pipeline has been stopped."
+PS: adamtheautomator.com> .\master-deployment-script.ps1
+
+
+  Please select an option
+
+   1:   Create Standalone SQL IIS Dev/Test environment
+   2:   Create Domain based SQL IIS Dev/Test environment
+   3:   Create Sharepoint Dev/Test environment
+   4:   Shutdown the VMs
+   5:   Start the VMs
+  99:   Delete the entire environment. ALL DATA WILL BE LOST
+
+
+  Please select a Region
+
+   1:   US East          (Virginia)
+   2:   US West          (California)
+   3:   US North Central (Illinois)
+   4:   US South Central (Texas)
+   5:   Europe North     (Ireland)
+   6:   Europe West      (Netherlands)
+
+
+
+Generating information
+   Admin password ievhtmkq7q0!
+   App Pool password ievhtmkq7q0!
+   Cloud Service Name sp-csyxzp
+   Creating new storage account spstorageleq3wo in South Central US
+... Completed
+Complete
+Setting configuration(s)
+   AD Configuration File
+   SQL Configuration File
+   IIS Configuration File
+Complete
+
+
+Deploying Server 2012 R2 Domain Controller using Configuration Template:
+   C:\Dropbox\GitRepos\Session-Content\Webinars\Technofocus - PowerShell DSC Webinars\scripts\Config\AD-Sample-AutoGen.xml
+Pay-As-You-Go
+Creating VNet COnfiguration file
+   Reading C:\Dropbox\GitRepos\Session-Content\Webinars\Technofocus - PowerShell DSC Webinars\scripts\Config\AD-VNET\NetworkConfig.xml
+... Completed
+   Reading Current Azure VNet configuration
+... Completed
+   Merging VNet Configurations
+... Completed
+   Saving VNet file to C:\Users\Adam\AppData\Local\Temp\spvnet.xml
+... Completed
+   Setting VNet configuration
+... Completed
+VNet Configuration file creation completed.
+
+Setting VM Configuration...
+ <DC500>
+   Adding Data disk(s)
+      Data size 20
+      Log size 10
+   Disk Processing Completed
+   No Endpoint(s) added
+VM Configuration complete
+Deploying VM...
+ <DC500>
+WARNING: No deployment found in service: 'sp-csyxzp'.
+VERBOSE: 2:05:28 PM - Begin Operation: New-AzureVM - Create Deployment with VM DC500
+
+VERBOSE: 2:06:40 PM - Completed Operation: New-AzureVM - Create Deployment with VM DC500
+VERBOSE: 2:06:40 PM - InstanceStatus is RoleStateUnknown
+VERBOSE: 2:08:43 PM - InstanceStatus is Provisioning
+VERBOSE: 2:12:47 PM - InstanceStatus is ReadyRole
+VM Deployment complete
+Installing WinRM Certificate for remote access: <sp-csyxzp> <DC500>
+... Completed
+Pausing for services to start (300 seconds)
+.
+.
+.
+.
+.
+.. Resuming
+
+Connecting to DC500
+... Connected
+Formatting data disks...
+ ... Formatting complete
+OperationDescription OperationId                          OperationStatus
+-------------------- -----------                          ---------------
+New-AzureVM          ad59fc4a-a8cb-7dcf-b164-1a5f6417db77 Succeeded
+
+
+
+
+
+Waiting on Azure (60 seconds)
+.
+.. Resuming
+
+Configuring DC500 with a static internal IP, 10.20.2.4. This will allow stopping the VM later and still retain the IP.
+DC IP is : 10.20.2.4
+Adding Active Directory DNS to VNET
+   Exporting existing VNet...
+ Complete
+   Read the configuration file into memory...
+ Complete
+   Adding Dns Server node...
+ Complete
+   Adding Dns Servers Ref node...
+ Complete
+   Writing the configuration file to disk...
+ Complete
+   Updating VNet with Dns Server entry...
+ Complete
+Completed Adding Active Directory DNS to VNET
+Active Directory Deployment completed
+   in 0 hours 25 minutes, 40 seconds
+
+Deploying SQL Server 2012 using Configuration Template:
+  C:\Dropbox\GitRepos\Session-Content\Webinars\Technofocus - PowerShell DSC Webinars\scripts\Config\SQL-Sample-AutoGen.xml
+Adding service account(s)
+Connecting to DC500
+... Connected
+Skipping, No account(s) to add
+Setting VM Configuration...
+ <SQL500>
+   Adding Data disk(s)
+      Data size 20
+      Log size 10
+   Disk Processing Completed
+   No Endpoint(s) added
+VM Configuration complete
+Deploying VM...
+ <SQL500>
+VERBOSE: 2:30:47 PM - Completed Operation: Get Deployment
+VERBOSE: 2:30:47 PM - Begin Operation: New-AzureVM - Create VM SQL500
+New-AzureVM          06bbbd8b-925a-789e-8215-988e40575077 Succeeded
+VERBOSE: 2:31:58 PM - Completed Operation: New-AzureVM - Create VM SQL500
+VERBOSE: 2:31:58 PM - InstanceStatus is RoleStateUnknown
+VERBOSE: 2:34:01 PM - InstanceStatus is Provisioning
+VERBOSE: 2:48:20 PM - InstanceStatus is ReadyRole
+VM Deployment complete
+Installing WinRM Certificate for remote access: <sp-csyxzp> <SQL500>
+... Completed
+Pausing for services to start (300 seconds)
+.
+.
+.
+.
+.
+.. Resuming
+
+Connecting to SQL500
+... Connected
+Formatting data disks...
+ ... Formatting complete
+SQL Server 2012 Deployment completed
+   in 0 hours 25 minutes, 9 seconds
+
+Deploying Windows 2012 R2 with IIS using Configuration Template:
+   C:\Dropbox\GitRepos\Session-Content\Webinars\Technofocus - PowerShell DSC Webinars\scripts\Config\IIS-Sample-AutoGen.xml
+Setting VM Configuration...
+ <IIS500>
+   Adding Data disk(s)
+      Data size 20
+   Disk Processing Completed
+   Adding Endpoint(s)
+      Adding Endpoint <web - 80>
+   Endpoint Processing Completed
+VM Configuration complete
+Deploying VM...
+ <IIS500>
+VERBOSE: 2:55:40 PM - Completed Operation: Get Deployment
+VERBOSE: 2:55:40 PM - Begin Operation: New-AzureVM - Create VM IIS500
+New-AzureVM          1eefc09d-03c6-7383-9057-8cb4f8bad521 Succeeded
+VERBOSE: 2:56:49 PM - Completed Operation: New-AzureVM - Create VM IIS500
+VERBOSE: 2:56:49 PM - InstanceStatus is RoleStateUnknown
+VERBOSE: 2:58:51 PM - InstanceStatus is Provisioning
+VERBOSE: 3:02:55 PM - InstanceStatus is ReadyRole
+VM Deployment complete
+Installing WinRM Certificate for remote access: <sp-csyxzp> <IIS500>
+... Completed
+Pausing for services to start (300 seconds)
+.
+.
+.
+.
+.
+.. Resuming
+Connecting to IIS500
+... Connected
+Formatting data disks...
+ ... Formatting complete
+IIS Deployment completed
+   in 0 hours 16 minutes, 42 seconds
+
+Script Execution Complete. Verify no errors during execution.
+
+Credentials: corp\spadmin Password: ievhtmkq7q0!
+Created Website on http://sp-csyxzp.cloudapp.net
+
+Total deployment completed in 1 hours 8 minutes, 32 seconds
+
+
+PS: adamtheautomator.com> np
+np : The term 'np' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the 
+spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ np
++ ~~
+    + CategoryInfo          : ObjectNotFound: (np:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+np : The term 'np' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name,
+or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ np
++ ~~
+    + CategoryInfo          : ObjectNotFound: (np:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS: adamtheautomator.com> notepad C:\Dropbox\GHITFS\EO\Dev\Modules\Library\AzureHelpers\ARMTemplates\HWP-GP1.json
+PS: adamtheautomator.com> powercfg -waketimers
+There are no active wake timers in the system.
+PS: adamtheautomator.com> services.msc
+**********************
+Windows PowerShell transcript end
+End time: 20160219085706
+**********************
+PS: adamtheautomator.com> $global:?
+True

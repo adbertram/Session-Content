@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="Pay-As-You-Go" ServiceName="sp-csyxzp" StorageAccount="spstorageleq3wo" Location="South Central US" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount UserName="spadmin" Password="ievhtmkq7q0!" />
+  </ServiceAccounts>
+  <AzureVNet CreateVNET="true" NetworkConfigFileName="NetworkConfig.xml" />
+  <AzureVMGroups>
+    <VMRole Name="DomainControllers" StartingImageName="a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20160126-en.us-127GB.vhd" VMSize="Small" SubnetNames="DCSubnet" ServiceAccountName="spadmin" AvailabilitySet="DCSet" DataDiskSizesInGB="Data:20;Log:10">
+      <AzureVM Name="DC500" DCType="NewForest">
+      </AzureVM>
+    </VMRole>
+  </AzureVMGroups>
+  <ActiveDirectory Domain="corp" DnsDomain="corp.contoso.com">
+  </ActiveDirectory>
+</Azure>

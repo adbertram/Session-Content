@@ -10,9 +10,5 @@
     <Folder>Demos\Packages\Microsoft_EMET</Folder>
     <Folder>Demos\Packages\SoftwareInstallManager</Folder>
   </OpenFolders>
-  <OpenFiles>
-    <File>Demos\Start-Demo.ps1</File>
-    <File>Demos\Packages\SoftwareInstallManager\SoftwareInstallManager.psd1</File>
-    <File>Demos\Packages\SoftwareInstallManager\SoftwareInstallManager.psm1</File>
-  </OpenFiles>
+  <OpenFiles />
 </ProjectState>

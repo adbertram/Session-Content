@@ -4,6 +4,8 @@ $demoPath = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\User Group Talks\Min
 
 #endregion
 
+## Start CLIENT1 and CLIENT2 deployments (RDP)
+
 ## Local SoftwareInstallMnaager module review
 
 ## functions demo (quick)
@@ -23,11 +25,12 @@ ii "$demoPath\New-CMMyApplication.ps1"
 ## Run on SCCM: 
 # C:\New-CMMyApplication.ps1 -Name MyApp -Manufacturer 'Microsoft' -SoftwareVersion '1.0' -SourceFolderPath '\\membersrv1\Packages\Company_Webapp' -Verbose
 
+## Show template file
+start "$demoPath\Packages\template.ps1"
+
 ## Show detect/install/uninstall scripts created
 
-## Run available deployments on CLIENT1 and CLIENT2 via Softare Center
+## Uninstall available deployments
 
 ## Show logs
-
-## Show each detect/install/uninstall script
 

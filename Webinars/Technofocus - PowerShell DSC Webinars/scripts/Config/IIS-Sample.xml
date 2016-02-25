@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Azure SubscriptionName="{SUBSCRIPTION NAME}" ServiceName="{CLOUD SERVICE NAME}" StorageAccount="{STORAGE ACCOUNT}" Location="{LOCATION}" VNetName="SPAutoVNet" AffinityGroup="SPAutoVNet-AG">
+  <ServiceAccounts>
+    <ServiceAccount Username="{DOMAIN\ADMIN NAME}" Password="{PASSWORD}" Type="WindowsDomain" Create="No" /> <!--Account used to connect to AD-->
+  	<ServiceAccount UserName="{ADMIN ACCOUNT}" Password="{PASSWORD}" Type="WindowsLocal" Create="No" /> <!--Account used to create VM-->
+  </ServiceAccounts>
+  <Connections>
+    <ActiveDirectory Domain="{DOMAIN}" DnsDomain="{DNS DOMAIN}" DomainControllerVM="DC1" ServiceAccountName="{DOMAIN\ADMIN NAME}" ServiceName="{AD CLOUD SERVICE NAME}" />
+  </Connections>
+  <AzureVMGroups>
+    <VMRole Name="IISServers"
+	        StartingImageName="{Windows Server 2012 R2 IMAGE}"
+            VMSize="Small" SubnetNames="AppSubnet"
+			AdminUsername="{ADMIN ACCOUNT}" DataDiskSizesInGB="Data:20">
+      <AzureVM Name="IIS1" >
+	  <Endpoint Name="web" Protocol="tcp" LocalPort="80" PublicPort="80" LBSetName="" ProbePort="" ProbeProtocol="" ProbePath="" />
+	  </AzureVM>
+    </VMRole>    
+  </AzureVMGroups>  
+</Azure>
