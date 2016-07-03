@@ -4,6 +4,8 @@ $demoPath = 'C:\Dropbox\GitRepos\Session-Content\Webinars\Ipswitch - Top 5 tasks
 ## Cleanup existing home folders
 'IUser', 'ISecondUser', 'BNumber1', 'BNumber2', 'BNumber3' | foreach { del "\\MEMBERSRV1\Users\$_" -ea SilentlyContinue }
 
+## Exit any existing sessions
+
 # Revert VM
 icm -computer hypervsrv -ScriptBlock { get-vm dc | Get-VMSnapshot | Restore-VMSnapshot -Confirm:$false }
 #endregion

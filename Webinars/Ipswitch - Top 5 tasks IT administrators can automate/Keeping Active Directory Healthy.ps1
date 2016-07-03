@@ -11,7 +11,7 @@
 
 #region Demo Setup
 
-$Credential = Get-Credential
+$Credential = Get-Credential ## p@$$w0rd16
 $PSDefaultParameterValues.Add('*-Ad*:Server', 'DC')
 Enter-PSSession -ComputerName dc -Credential $Credential
 cd\
@@ -57,7 +57,7 @@ $gpos = Get-GPOReport -All -ReportType XML
 #region Keeping directories in sync
 
 ## Pull out AD attributes into a CSV and MoveIT will take from there.
-
-## CSV file will be called ActiveDirectory.csv
+Get-ADUser -Filter { Enabled -eq $true } | select givenName, SurName, distinguishedName | Export-Csv -Path 'C:\ActiveDirectory.csv'
+Import-Csv -Path C:\ActiveDirectory.csv
 
 #endregion

@@ -1,13 +1,15 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
-\vieww22040\viewh16840\viewkind0
+\vieww30060\viewh23940\viewkind0
 \deftab720
 \pard\pardeftab720\li600\partightenfactor0
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\li400\partightenfactor0
-\cf0 Slide: Automate the Boring Stuff\
+
+\b \cf0 Slide: Automate the Boring Stuff
+\b0 \
 \pard\pardeftab720\li600\partightenfactor0
 \cf0 Why do we automate anyway? There are a couple core reasons. The first is to eliminate as many mundane tasks as possible. These are tasks that we think we don't have time for that still need to be done. These are tasks that we hate doing and are always thinking there's got to be a better way. These tasks typically don't produce value in of themselves. They are tasks that are utilitarian in nature that we need to offload to some automation platform to get down to doing more important things.\
 \
@@ -17,7 +19,9 @@ I won't lie though. Leveraging automation like scripting has a significant upfro
 Later on we'll show you a few ways you can remove all of these ad-hoc processes into a single file moving automation suite.\
 \
 \pard\pardeftab720\li400\partightenfactor0
-\cf0 Slide: We Don't Have Time to Automate\
+
+\b \cf0 Slide: We Don't Have Time to Automate
+\b0 \
 \pard\pardeftab720\li600\partightenfactor0
 \cf0 This is one of my favorite pictures around automation. It's one that I'm sure you've experienced yourself at one point or another. It's about someone that sees a better way to do things. This innovative individual may have a knack for stepping back, noticing the forest for the trees and thinking, "You know? There's got to be a better way to do this." He may then approach the people responsible for the task and get a reply like what you see here. "We don't have time to automate. We're much too busy to stop and automate.". \'a0This drives me nuts.\
 \
@@ -26,11 +30,14 @@ These people can't seem to come out of the fire they're being thrown in every da
 Automation is about being proactive. It's about preventing the fires to crop up in the first place. It's about putting the fires on hold for a bit to put systems in place so they don't come up in the first place. If everyone on your team had this mentality, you'd see see your fires start to die down and allow you team to work on projects that produce business value rather than running on the perpetual hamster wheel of support issues every day.\
 \
 \pard\pardeftab720\li400\partightenfactor0
-\cf0 Slide: PowerShell is an IT Admin's Best Friend\
+
+\b \cf0 Slide: PowerShell is an IT Admin's Best Friend
+\b0 \
 \pard\pardeftab720\li600\partightenfactor0
 \cf0 Now that you've got a taste of automation in general, let's dive down a little bit and talk about PowerShell and a little about file automation.\
 \
 First of all, why would you use PowerShell to automate in the first place? Well, the biggest reason is that it's everywhere. As of Windows 7 and Windows Server 2008, it's been installed by default on all Windows system. Even though you will probably have to upgrade, it's a seamless process and is THE way to automate just about anything you need in the Microsoft ecosystem.\
+\
 Next, it's IT-friendly. If you've used VBscript in the past you'll know what it means to be non-IT friendly. PowerShell was built from the ground up to be easy to understand. Anyone can understand what a command like Test-Connection does rather than trying to digest 5 lines of obscure VBscript code that does the same thing.\
 \
 Finally, I define PowerShell as automation glue. It can not only interact with anything on Windows or any other Microsoft product but other vendors are leveraging it to manage their products as well such as VMware, Cisco UCS, NetApp and many other tech vendors. Even if a vendor doesn't have it's own PowerShell module, if you're good enough and most importantly have enough time, you can even hook into their APIs directly.\
@@ -38,18 +45,11 @@ Finally, I define PowerShell as automation glue. It can not only interact with a
 But, there's one big but here and that is the time factor. Even though I could go on and on about the virtues of PowerShell, you'll find that even though anything is possible you need to weigh the advantage of learning, rolling your own solution or purchasing a solution that cuts straight to delivering value. For file transfer automation, that's where MoveIt comes into play.\
 \
 \pard\pardeftab720\li400\partightenfactor0
-\cf0 Slide: Advantages of File Transfer Automation\
+
+\b \cf0 Slide: Demos: Five Common IT Automation Tasks
+\b0 \
 \pard\pardeftab720\li600\partightenfactor0
-\cf0 As I alluded to earlier, even though PowerShell can do just about anything it requires a significant time investment. Think of building a file automation script in PowerShell in phases. Just like any other script, the script needs to first be planned. You must think about where the file is coming from, where's it going, what the trigger is going to look like such as a scheduled task, a WMI event that monitors a folder and so on. You must create each of these things from scratch. Even though you've got ultimate flexibility, you're going to have to handle all that yourself.\
-\
-Once you've got the actual task done you'll find that the script doesn't always run as you had planned. A good script accounts for things like changes in the environment like an expected path doesn't exist anymore, now what do I do which leads to error handling routines.\
-\
-When the script doesn't go as planned you need an easy way to troubleshoot. This is where your script needs to generate a log and allow an easy way to report on the status. Again, all of these are possible but, at this point, you're essentially creating your own application from scratch. Why? If you don't really care about PowerShell, I'd just look into something like MoveIt to handle all of that for you.\
-\
-\pard\pardeftab720\li400\partightenfactor0
-\cf0 Slide: Demos: Five Common IT Automation Tasks\
-\pard\pardeftab720\li600\partightenfactor0
-\cf0 Now we're to while you've been waiting for. The demos! For this webinar, we've broken out 5 different scenarios that you may find yourself needing to implement some kind of automation in.\'a0\
+\cf0 For this webinar, we've broken out 5 different scenarios that you may find yourself needing to implement some kind of automation in.\'a0\
 \
 First, we're going to cover using PowerShell to keep Active Directory healthy. This will entail scripting things like finding empty groups, empty OUs and finding old AD objects that need to be cleaned up.\
 Next, I'm going to cover part of a script I've build automate employee provisioning. You'll see how we can create rules for things like finding the right username, create the AD account and creating a home folder in the same way every time.\
@@ -60,11 +60,24 @@ For my last demo, I'll then show you how we can reach out to a remote physical s
 \
 ..and then finally, Tony will take over and show you how MoveIt can come behind our PowerShell scripts and leverage the power of a fully-featured application like MoveIt to securely and efficiently get the files we created to their intended destination.\
 \
-Without further ado, let's get started with the demos.\
+\pard\pardeftab720\li400\partightenfactor0
+
+\b \cf0 Slide: Considerations: Selecting the Right Tool
+\b0 \
+\pard\pardeftab720\li600\partightenfactor0
+\cf0 As I alluded to earlier, even though PowerShell can do just about anything it requires a significant time investment. Think of building a file automation script in PowerShell in phases. Just like any other script, the script needs to first be planned. You must think about where the file is coming from, where's it going, what the trigger is going to look like such as a scheduled task, a WMI event that monitors a folder and so on. You must create each of these things from scratch. Even though you've got ultimate flexibility, you're going to have to handle all that yourself.\
+\
+Once you've got the actual task done you'll find that the script doesn't always run as you had planned. A good script accounts for things like changes in the environment like an expected path doesn't exist anymore, now what do I do which leads to error handling routines.\
+\
+When the script doesn't go as planned you need an easy way to troubleshoot. This is where your script needs to generate a log and allow an easy way to report on the status. Again, all of these are possible but, at this point, you're essentially creating your own application from scratch. Why? If you don't really care about PowerShell, I'd just look into something like MoveIt to handle all of that for you.\
+\
+It all comes down to choosing the right tool for the job. By now, you've seen that you technically CAN do just about anything in PowerShell but you need to weigh the time vs. benefit ratio here. If you've got a lot of files to move around and want to immediately begin seeing business value, go with a tool that's feature-rich and complete and use PowerShell to fill in the gaps.\
+\
+So, with that being said, let's jump into the demos.\
 \
 \pard\pardeftab720\li200\partightenfactor0
 
-\fs26 \cf0 Keeping Active Directory Healthy with PowerShell (PowerShell) (Adam)
+\b\fs26 \cf0 Keeping Active Directory Healthy with PowerShell (PowerShell) (Adam)
 \fs24 \
 \pard\pardeftab720\li400\partightenfactor0
 \cf0 \
@@ -81,13 +94,17 @@ Exporting an Azure SQL Database Resultset to CSV (MoveIt/PowerShell) (Adam)
 \pard\pardeftab720\li200\partightenfactor0
 
 \fs26 \cf0 Automating a Remote Physical to Virtual Server Conversion (MoveIt/PowerShell) (Adam)
+\b0 \
+\
+
+\fs48 PUT UP THE BLOG POST AND TEST bit.ly/topfiveautomation
 \fs24 \
 \pard\pardeftab720\li400\partightenfactor0
 \cf0 \
 \pard\pardeftab720\li200\partightenfactor0
 
-\fs26 \cf0 MoveIt SLA Demo (Tony)
-\fs24 \
+\b\fs26 \cf0 MoveIt SLA Demo (Tony)
+\b0\fs24 \
 \pard\pardeftab720\li400\partightenfactor0
 \cf0 \
 }
