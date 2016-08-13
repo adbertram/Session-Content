@@ -54,34 +54,26 @@ class GHI_DnsServerAddress
 			if ($this.Ensure -eq [Ensure]::Present)
 			{
 				@($getObject.AbsentReason).foreach({
-						try
+						switch ($_)
 						{
-							switch ($_)
+							'ServerMissing'
 							{
-								'ServerMissing'
-								{
-									Write-Verbose -Message "Thre are DNS server addresses missing."
-								}
-								'ServersDontMatch'
-								{
-									Write-Verbose -Message "DNS server addresses don't match."
-								}
-								'TooManyServers' {
-									Write-Verbose -Message "There are too many DNS server addresses defined."
-								}
-								default
-								{
-									throw 'Unrecognized absent reason'
-								}
+								Write-Verbose -Message "Thre are DNS server addresses missing."
 							}
-							
-							Set-DnsClientServerAddress -InterfaceAlias $this.InterfaceAlias -ServerAddresses $this.Address
-						}
-						catch
-						{
-							throw $_
+							'ServersDontMatch'
+							{
+								Write-Verbose -Message "DNS server addresses don't match."
+							}
+							'TooManyServers' {
+								Write-Verbose -Message "There are too many DNS server addresses defined."
+							}
+							default
+							{
+								throw 'Unrecognized absent reason'
+							}
 						}
 					})
+				Set-DnsClientServerAddress -InterfaceAlias $this.InterfaceAlias -ServerAddresses $this.Address
 			}
 			else
 			{
@@ -113,7 +105,7 @@ class GHI_DnsServerAddress
 			}
 			
 			$absentReasons = $null
-
+			
 			if (-not ($dnsClientServerAddresses = Get-DnsClientServerAddress @clientParams))
 			{
 				$aliases = (Get-DnsClientServerAddress).InterfaceAlias

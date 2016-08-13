@@ -9,7 +9,7 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 		
 		## Assign all the mandatory properties to the object
 		$dnsSrvAddress.InterfaceAlias = 'Bogus'
-		$dnsSrvAddress.Address = '8.8.8.8','4.4.4.4'
+		$dnsSrvAddress.Address = '8.8.8.8', '4.4.4.4'
 		$dnsSrvAddress.Ensure = 'Present'
 		
 		it 'throws an exception if the interface alias is not found' {
@@ -23,7 +23,7 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 			
 			mock 'Get-DnsClientServerAddress' {
 				[pscustomobject]@{
-					ServerAddresses = '2.2.2.2','6.6.6.6','4.4.4.4'
+					ServerAddresses = '2.2.2.2', '6.6.6.6', '4.4.4.4'
 				}
 			} -ParameterFilter { $InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias }
 			
@@ -49,7 +49,7 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 			
 			mock 'Get-DnsClientServerAddress' {
 				[pscustomobject]@{
-					ServerAddresses = '4.4.4.4','8.8.8.8'
+					ServerAddresses = '4.4.4.4', '8.8.8.8'
 				}
 			} -ParameterFilter { $InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias }
 			
@@ -68,39 +68,67 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 			
 			$result = $dnsSrvAddress.Get()
 			$result.AbsentReason | should be $null
-		
+			
 		}
 		
 	}
 	
 	describe 'Set' {
 		
-		#region Mocks
-		mock 'Write-Log'
+		## Instantiate a new GHI_NetworkAdapter object
+		$dnsSrvAddress = [GHI_DnsServerAddress]::new()
 		
-		mock 'Get-CallerPreference'
+		## Assign all the mandatory properties to the object
+		$dnsSrvAddress.InterfaceAlias = 'Bogus'
+		$dnsSrvAddress.Address = '8.8.8.8', '4.4.4.4'
+		$dnsSrvAddress.Ensure = 'Present'
 		
-		mock 'New-Error'
-		#endregion	
+		mock 'Set-DnsClientServerAddress'
+		mock 'Get-DnsClientServerAddress' {
+			[pscustomobject]@{
+				ServerAddresses = '2.2.2.2'
+			}
+		} -ParameterFilter { $InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias }
 		
-		$params = @{
-				
-		}
-		
-		it 'does not throw an exception or non-terminating error when called with all default parameters' {		
+		it 'throws an exception when the Ensure property is set to Absent' {
 			
-			$funcError = $null
-			$null = Set @params -ErrorAction SilentlyContinue -ErrorVariable funcErr
-			$funcError | should be $null
-			Assert-MockCalled 'Write-Log' -ParameterFilter {$EntryType -eq 'Error'} -Times 0
+			$dnsSrvAddress.Ensure = 'Absent'
+			{ $dnsSrvAddress.Set() } | should throw 'Absent logic not implemented'
+			
 		}
 		
-		it 'returns returnCount object(s) of type returnObjectType' {
+		it 'attempts to set the appropriate DNS server addresses' {
 			
-			$result = Set @params
-			@($result).Count | should be returnCount
-			$result | should beoftype returnObjectType
+			mock 'Set-DnsClientServerAddress'
+			
+			$dnsSrvAddress.Ensure = 'Present'
+			$dnsSrvAddress.Set()
+			
+			$assMParams = @{
+				'CommandName' = 'Set-DnsClientServerAddress'
+				'Times' = 1
+				'Exactly' = $true
+				'Scope' = 'It'
+				'ParameterFilter' = { ($InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias) -and (-not (Compare-Object $ServerAddresses $dnsSrvAddress.Address)) }
+			}
+			Assert-MockCalled @assMParams
+			
 		}
-	}
+		
+		it 'returns $null when successful' {
+			
+			$assMParams = @{
+				'CommandName' = 'Set-DnsClientServerAddress'
+				'Times' = 1
+				'Exactly' = $true
+				'ParameterFilter' = { ($InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias) -and (-not (Compare-Object $ServerAddresses $dnsSrvAddress.Address)) }
+			}
+			Assert-MockCalled @assMParams
+			
+			$dnsSrvAddress.Set() | should be $null
+			
+		}
 	}
 }
+
+"Invoke-Pester -Path 'C:\Dropbox\GitRepos\Session-Content\Live Talks\DSC Camp 2016\ClassBasedDSCResource.Tests.ps1'" | Set-Clipboard
