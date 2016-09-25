@@ -19,7 +19,7 @@ describe 'SimpleMockExample' {
 			return 'I have been mocked!'
 		}
 		
-		Hello-World | should be 'I have been mocked!'
+		Hello-World | should be 'I am in the Hello-World function'
 		
 	}
 	

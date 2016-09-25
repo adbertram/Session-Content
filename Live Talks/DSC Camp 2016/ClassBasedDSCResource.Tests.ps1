@@ -7,13 +7,14 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 		## Instantiate a new GHI_NetworkAdapter object
 		$dnsSrvAddress = [GHI_DnsServerAddress]::new()
 		
-		## Assign all the mandatory properties to the object
+		## Assign all the mandatory properties to the object. This sets all of the properties we'll be testing.
 		$dnsSrvAddress.InterfaceAlias = 'Bogus'
 		$dnsSrvAddress.Address = '8.8.8.8', '4.4.4.4'
 		$dnsSrvAddress.Ensure = 'Present'
 		
 		it 'throws an exception if the interface alias is not found' {
 			
+			## Ensure that Get-DnsClientServerAddress is called with appropriate parameters when the Get() method is called
 			mock 'Get-DnsClientServerAddress' -ParameterFilter { $InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias }
 			
 			{ $dnsSrvAddress.Get() } | should throw "Could not find network adapter with interface alias [$($dnsSrvAddress.InterfaceAlias)]"
@@ -83,7 +84,9 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 		$dnsSrvAddress.Address = '8.8.8.8', '4.4.4.4'
 		$dnsSrvAddress.Ensure = 'Present'
 		
+		## A mock object with no MockWith parameter. This essentially neuters the function.
 		mock 'Set-DnsClientServerAddress'
+		
 		mock 'Get-DnsClientServerAddress' {
 			[pscustomobject]@{
 				ServerAddresses = '2.2.2.2'
@@ -97,6 +100,7 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 			
 		}
 		
+		## Notice the "attempts" verb. Unit tests don't confirm it actually did the thing
 		it 'attempts to set the appropriate DNS server addresses' {
 			
 			mock 'Set-DnsClientServerAddress'
@@ -109,7 +113,10 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 				'Times' = 1
 				'Exactly' = $true
 				'Scope' = 'It'
-				'ParameterFilter' = { ($InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias) -and (-not (Compare-Object $ServerAddresses $dnsSrvAddress.Address)) }
+				'ParameterFilter' = {
+					($InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias) -and
+					(-not (Compare-Object $ServerAddresses $dnsSrvAddress.Address))
+				}
 			}
 			Assert-MockCalled @assMParams
 			
@@ -121,7 +128,10 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 				'CommandName' = 'Set-DnsClientServerAddress'
 				'Times' = 1
 				'Exactly' = $true
-				'ParameterFilter' = { ($InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias) -and (-not (Compare-Object $ServerAddresses $dnsSrvAddress.Address)) }
+				'ParameterFilter' = {
+					($InterfaceAlias -eq $dnsSrvAddress.InterfaceAlias) -and
+					(-not (Compare-Object $ServerAddresses $dnsSrvAddress.Address))
+				}
 			}
 			Assert-MockCalled @assMParams
 			
@@ -129,6 +139,8 @@ InModuleScope 'GHI.DSC.NetworkAdapter' {
 			
 		}
 	}
+	
+	## No test describe block because nothing in Test()
 }
 
 "Invoke-Pester -Path 'C:\Dropbox\GitRepos\Session-Content\Live Talks\DSC Camp 2016\ClassBasedDSCResource.Tests.ps1'" | Set-Clipboard
