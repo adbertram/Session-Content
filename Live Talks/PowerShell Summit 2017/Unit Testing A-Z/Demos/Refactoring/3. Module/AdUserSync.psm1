@@ -5,7 +5,7 @@ function Get-AdUserDefaultPassword
     (
         [Parameter()]
         [ValidateNotNullOrEmpty()]
-        [string]$FilePath = "$($PSScriptRoot | Split-Path -Parent)\Artifacts\DefaultUserPassword.xml"
+        [string]$FilePath = "..\$($PSScriptRoot | Split-Path -Parent)\Artifacts\DefaultUserPassword.xml"
     )
 
     ## To save a new password, do this: Get-Credential -UserName 'DOESNOTMATTER' | Export-CliXml $defaultPasswordXmlFile
@@ -22,7 +22,7 @@ function Get-ActiveEmployee
     (
         [Parameter()]
         [ValidateNotNullOrEmpty()]
-        [string]$FilePath = "$($PSScriptRoot | Split-Path -Parent)\Artifacts\Employees.csv"
+        [string]$FilePath = "..\$($PSScriptRoot | Split-Path -Parent)\Artifacts\Employees.csv"
     )
 
     if (-not (Test-Path -Path $FilePath)) {

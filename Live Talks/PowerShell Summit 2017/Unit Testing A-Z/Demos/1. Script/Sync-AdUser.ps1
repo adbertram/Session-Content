@@ -1,14 +1,15 @@
-## This version is when your manager asks you to add members to a group and also disable and move
-## users that are NOT on the CSV list to a specific OU. Also, need to make the script check the
-## FirstInitial/MiddleInitial/LastName because it hasn't been finding some users. Also 
-
 <#
-	New requirements:
+This is a typical procedural PowerShell script. It is used to "sync" a number of employees stored in a CSV file
+to Active Directory. This mimics a typical script you might use in your
+daily work life. You've got a set of requirements like HR handing you a CSV and saying they need that information
+populated in Active Directory. They have an initial set of requirements. 
 
-	- Add users to departmental groups
-	- Disable users not in the CSV
-	- Add to specific OUs depending on department.
+This script:
 
+ - Attempts to find a corresponding AD account based on the FirstName/LastName of a CSV throw
+ - If found, it skips. If not, it creates a user based on attribute in that CSV row
+ - It adds the user account to a departmental group
+ - It also disables any user NOT in the CSV
 #>
 
 $domainDn = (Get-ADDomain).DistinguishedName
@@ -64,7 +65,7 @@ if ($employees) { ## Checking to see if there was actually any employees in the 
 					ChangePasswordAtLogon = $true
 				}
 				
-				## v2 Addition -- Add users to specific OUs depending on department
+				## Add users to specific OUs depending on department
 
 				## Does the departmental OU even exist yet?
 				$departmentOuPath = "OU=$($employee.Department),$domainDn"
@@ -81,7 +82,7 @@ if ($employees) { ## Checking to see if there was actually any employees in the 
 				New-AdUser @newUserParams
 			}
 
-			##v2 Addition -- Adding to department group
+			## Adding to department group
 
 			## Check to see if the group exists
 			if (-not (Get-ADGroup -Filter "Name -eq '$($employee.Department)'")) {
