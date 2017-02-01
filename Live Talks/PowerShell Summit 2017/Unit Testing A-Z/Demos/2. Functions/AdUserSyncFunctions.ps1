@@ -5,14 +5,14 @@ function Get-AdUserDefaultPassword
     (
         [Parameter()]
         [ValidateNotNullOrEmpty()]
-        [string]$FilePath = "..\$($PSScriptRoot | Split-Path -Parent)\Artifacts\DefaultUserPassword.xml"
+        [string]$FilePath = "$($PSScriptRoot | Split-Path -Parent)\Artifacts\DefaultUserPassword.xml"
     )
 
     ## To save a new password, do this: Get-Credential -UserName 'DOESNOTMATTER' | Export-CliXml $defaultPasswordXmlFile
     Write-Verbose -Message "Reading default password from [$FilePath]..."
     $defaultCredential = Import-CliXml -Path $FilePath
     $defaultPassword = $defaultCredential.GetNetworkCredential().Password
-    ConvertTo-SecureString $defaultPassword -AsPlainText -Force
+    ConvertTo-SecureString -String $defaultPassword -AsPlainText -Force
 }
 
 function Get-ActiveEmployee
@@ -22,7 +22,7 @@ function Get-ActiveEmployee
     (
         [Parameter()]
         [ValidateNotNullOrEmpty()]
-        [string]$FilePath = "..\$($PSScriptRoot | Split-Path -Parent)\Artifacts\Employees.csv"
+        [string]$FilePath = "$($PSScriptRoot | Split-Path -Parent)\Artifacts\Employees.csv"
     )
 
     if (-not (Test-Path -Path $FilePath)) {
@@ -31,7 +31,12 @@ function Get-ActiveEmployee
         Write-Verbose -Message "The employee CSV file at [$($FilePath)] exists."
     }
 
-    Import-Csv -Path $FilePath | Select-Object *,@{ n= 'ADUsername';e={Get-EmployeeUsername -FirstName $_.Firstname -LastName $_.LastName } }
+    $selectProperties = @(
+        '*'
+        @{ n= 'ADUsername';e={Get-EmployeeUsername -FirstName $_.Firstname -LastName $_.LastName } }
+    )
+
+    Import-Csv -Path $FilePath | Select-Object $selectProperties
     
 }
 
@@ -44,9 +49,8 @@ function Get-InactiveEmployee
         [ValidateNotNullOrEmpty()]
         [pscustomobject[]]$ActiveEmployee = (Get-ActiveEmployee)
     )
-
+    
     $adUsers = Get-ADuser -Filter "Enabled -eq 'True' -and SamAccountName -ne 'Administrator'"
-
     $adUsers.where({ $_.samAccountName -notin $ActiveEmployee.ADUsername })
     
 }
