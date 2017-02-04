@@ -1,4 +1,4 @@
-$artifactsFolder = "$PSScriptRoot\Artifacts"
+$artifactsFolder = "Project\Artifacts"
 $employeesCsvPath = "$artifactsFolder\Employees.csv"
 
 describe 'CSV file' {

@@ -1,3 +1,5 @@
+## TESTS FOR THE SYNC-ADUSER.PS1 SCRIPT. ALL FUNCTIONS WITHIN THIS SCRIPT ALL Have
+## TESTS FOR EACH OF THEM IN THE ADUSERSYNC MODULE TESTS.
 
 ## Pre-populate the dummy CSV file contents we'll be testing with for both active and inactive employees
 ## It's up here because this data is read in multiple tests.
@@ -15,14 +17,13 @@ $getInActiveEmployeeOutput = ConvertFrom-Csv -InputObject @'
 "Katie","Green","Accounting","Manager of Accounting","kgreen","OU=Accounting,DC=mylab,DC=local"
 '@
 
+## Import the module explicitly in case it's not imported already
+Import-Module "$PSScriptRoot\Module\AdUserSync.psm1" -Force
+
 ## Figure out how to get the script to execute. This could be hardcoded but by doing this we can 
 ## resuse this technique in other test scripts.
 $scriptFilePath = $MyInvocation.MyCommand.Path -replace '\.Tests\.ps1','.ps1' | Split-Path -Leaf
-$scriptFilePath = "$($PSSCriptRoot | Split-Path -Parent)\$scriptFilePath"
-
-## Have to dot source the functions that are again dot-sourced in the script itself so that Pester can "see" them
-## for mocking.
-. "$($PSScriptRoot | Split-Path -Parent)\ADUserSyncFunctions.ps1"
+$scriptFilePath = "$PSScriptRoot\$scriptFilePath"
 
 #region Start Tests
 

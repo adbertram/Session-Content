@@ -1,3 +1,5 @@
+[CmdletBinding()]
+param()
 <#
 This is a typical procedural PowerShell script. It is used to "sync" a number of employees stored in a CSV file
 to Active Directory. This mimics a typical script you might use in your
@@ -14,7 +16,7 @@ This script:
 
 $domainDn = (Get-ADDomain).DistinguishedName
 
-$artifactsFolder = "$($PSScriptRoot | Split-Path -Parent)\Artifacts"
+$artifactsFolder = "$PSScriptRoot\Artifacts"
 
 ## The default password for account was saved on the file system previously
 $defaultPasswordXmlFile = "$artifactsFolder\DefaultUserPassword.xml"
