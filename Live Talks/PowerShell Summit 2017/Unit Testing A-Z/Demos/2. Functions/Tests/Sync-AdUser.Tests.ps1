@@ -81,61 +81,61 @@ describe 'Sync-AdUser - existing user tests' {
 
 }
 
-# describe 'Sync-AdUser - OU tests' {
+describe 'Sync-AdUser - OU tests' {
 
-#     ## Have Get-ActiveEmployee send fake data so we can easily control it
-#     mock 'Get-ActiveEmployee' {
-#         $getActiveEmployeeOutput
-#     }
+    ## Have Get-ActiveEmployee send fake data so we can easily control it
+    mock 'Get-ActiveEmployee' {
+        $getActiveEmployeeOutput
+    }
 
-#     ## This must be here to get past this call in the function. We're not testing users right now.
-#     mock 'Test-ADUserExists' {
-#         $false
-#     }
+    ## This must be here to get past this call in the function. We're not testing users right now.
+    mock 'Test-ADUserExists' {
+        $false
+    }
 
-#     mock 'Test-ADOrganizationalUnitExists' {
-#         $false
-#     }
+    mock 'Test-ADOrganizationalUnitExists' {
+        $false
+    }
 
-#     mock 'Get-InactiveEmployee'
+    mock 'Get-InactiveEmployee'
 
-#     it 'when an OU does not exist, it should throw an exception' {
-#         { & $scriptFilePath } | should throw 'Unable to find the OU'
-#     }
+    it 'when an OU does not exist, it should throw an exception' {
+        { & $scriptFilePath } | should throw 'Unable to find the OU'
+    }
 
-# }
+}
 
-# describe 'Sync-AdUser - group tests' {
+describe 'Sync-AdUser - group tests' {
 
-#     mock 'Get-ActiveEmployee' {
-#         $getActiveEmployeeOutput
-#     }
+    mock 'Get-ActiveEmployee' {
+        $getActiveEmployeeOutput
+    }
 
-#     mock 'Test-ADUserExists' {
-#         $false
-#     }
+    mock 'Test-ADUserExists' {
+        $false
+    }
 
-#     mock 'Test-ADOrganizationalUnitExists' {
-#         $true
-#     }
+    mock 'Test-ADOrganizationalUnitExists' {
+        $true
+    }
 
-#     mock 'New-CompanyAdUser'
+    mock 'New-CompanyAdUser'
 
-#     mock 'Get-AdUserDefaultPassword' {
-#        (ConvertTo-SecureString -String 'foo' -AsPlainText -Force)
-#    }
+    mock 'Get-AdUserDefaultPassword' {
+       (ConvertTo-SecureString -String 'foo' -AsPlainText -Force)
+   }
 
-#     mock 'Test-AdGroupExists' {
-#         $false
-#     }
+    mock 'Test-AdGroupExists' {
+        $false
+    }
 
-#     mock 'Get-InactiveEmployee'
+    mock 'Get-InactiveEmployee'
 
-#     it 'when a group does not exist, it should throw an exception' {
-#         { & $scriptFilePath } | should throw 'Unable to find the group'
-#     }
+    it 'when a group does not exist, it should throw an exception' {
+        { & $scriptFilePath } | should throw 'Unable to find the group'
+    }
 
-# }
+}
 
 describe 'Sync-AdUser - user account creation' {
 

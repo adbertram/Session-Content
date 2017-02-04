@@ -108,13 +108,6 @@ else
 	Write-Warning "No records found in the file [$($employeesCsvPath)]"	
 }
 
-##v2 Addition -- Disable users to another OU not in the CSV
-$adUsers = Get-ADuser -Filter "Enabled -eq 'True' -and SamAccountName -ne 'Administrator'"
-$employeeUserNames = $employees.foreach({
-	$firstInitial = $_.FirstName.SubString(0,1)
-	'{0}{1}' -f $firstInitial,$_.LastName
- })
-
 $nonEmployeeAdUsers = $adUsers.where({ $_.samAccountName -notin $employeeUserNames })
 foreach ($emp in $nonEmployeeAdUsers) {
 	$emp | Disable-AdAccount
