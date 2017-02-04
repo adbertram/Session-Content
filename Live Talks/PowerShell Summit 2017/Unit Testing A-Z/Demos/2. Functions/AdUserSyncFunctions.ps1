@@ -34,6 +34,7 @@ function Get-ActiveEmployee
     $selectProperties = @(
         '*'
         @{ n= 'ADUsername';e={Get-EmployeeUsername -FirstName $_.Firstname -LastName $_.LastName } }
+        @{ n= 'OUPath';e={Get-DepartmentOUPath -OUPath $_.Department } }
     )
 
     Import-Csv -Path $FilePath | Select-Object $selectProperties
@@ -73,6 +74,23 @@ function Get-EmployeeUsername
     $firstInitial = $FirstName.SubString(0,1)
     '{0}{1}' -f $firstInitial,$LastName
     
+}
+
+function Get-DepartmentOUPath
+{
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
+        [string]$OUPath,
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]$DomainDistinguishedName = 'DC=mylab,DC=local'
+    )
+
+    "OU=$OUPath,$DomainDistinguishedName"
 }
 
 function Test-AdUserExists
@@ -147,19 +165,14 @@ function Test-ADOrganizationalUnitExists
     (
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
-        [string]$OUPath,
-
-        [Parameter()]
-        [ValidateNotNullOrEmpty()]
-        [string]$DomainDistinguishedName = 'DC=mylab,DC=local'
+        [string]$DistinguishedName
     )
 
-    $fullOuPath = $OUPath,$DomainDistinguishedName
-    if (Get-ADOrganizationalUnit -Filter "DistinguishedName -eq '$fullOuPath'") {
-        Write-Verbose -Message "The organizational unit [$fullOuPath] exists."
+    if (Get-ADOrganizationalUnit -Filter "DistinguishedName -eq '$DistinguishedName'") {
+        Write-Verbose -Message "The organizational unit [$DistinguishedName] exists."
         $true
     } else {
-        Write-Verbose -Message "The organizational unit [$fullOuPath] does not exist."
+        Write-Verbose -Message "The organizational unit [$DistinguishedName] does not exist."
         $false
     }   
 }
@@ -183,7 +196,7 @@ function New-CompanyAdUser
 
         [Parameter()]
         [ValidateNotNullOrEmpty()]
-        [string]$Password = (Get-AdUserDefaultPassword)
+        [securestring]$Password = (Get-AdUserDefaultPassword)
     )
 
     $newUserParams = @{
@@ -194,7 +207,7 @@ function New-CompanyAdUser
         Title = $Employee.Title
         Department = $Employee.Department
         SamAccountName = $Username
-        AccountPassword = $Pasword
+        AccountPassword = $Password
         Path = $OrganizationalUnit
         Enabled = $true
         ChangePasswordAtLogon = $true

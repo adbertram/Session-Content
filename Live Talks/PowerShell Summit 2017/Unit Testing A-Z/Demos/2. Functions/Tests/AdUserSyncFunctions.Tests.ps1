@@ -104,6 +104,13 @@ describe 'Get-ActiveEmployee' {
 
     }
 
+    it 'returns objects that have an OUPath property appended' {
+        
+        $result = Get-ActiveEmployee
+        $result.OUPath | should not benullorempty
+
+    }
+
     it 'throws an exception when the CSV file cannot be found' {
         
         mock 'Test-Path' {
@@ -216,24 +223,182 @@ describe 'Get-InactiveEmployee' {
 
 describe 'Get-EmployeeUsername' {
 
+    $result = Get-EmployeeUsername -FirstName 'Bob' -LastName 'Jones'
+
+    it 'should return a single string' {
+        @($result).Count | should be 1
+        $result | should beofType 'string'
+    }
+    
+    ## This test is technically not required since we're inherently testing this in the assertion below. However,
+    ## I choose to do this to make the tests more explicit and easier to pinpoint problems.
+    it 'should return the first initial of the first name as the first character' {
+        $result.SubString(0,1) | should be 'B'
+    }
+
+    it 'should return the expected username' {
+        $result | should be 'BJones'
+    }
+}
+
+describe 'Get-DepartmentOUPath' {
+   $result = Get-DepartmentOUPath -OUPath 'departmentHere'
+
+   it 'returns a single string' {
+        @($result).Count | should be 1
+        $result | should beofType 'string'
+   } 
+
+   it 'returns the expected OU path' {
+        $result | should be 'OU=departmentHere,DC=mylab,DC=local'
+   }
 }
 
 describe 'Test-AdUserExists' {
+    
+    it 'returns $true if the user account can be found in AD' {
+        mock 'Get-AdUser' {
+            $true
+        }
+        $result = Test-AdUserExists -UserName 'bjones'
+        $result | should be $true
+    }
 
+    it 'returns $false if the user account cannot be found in AD' {
+        mock 'Get-AdUser'
+
+        $result = Test-AdUserExists -UserName 'bjones'
+        $result | should be $false
+    }
 }
 
 describe 'Test-AdGroupExists' {
 
+
+    it 'returns $true if the group can be found in AD' {
+        mock 'Get-AdGroup' {
+            $true
+        }
+        $result = Test-AdGroupExists -Name 'whatever'
+        
+        $result | should be $true
+    }
+
+    it 'returns $false if the group cannot be found in AD' {
+        mock 'Get-AdGroup'
+
+        $result = Test-AdGroupExists -Name 'whatever'
+        $result | should be $false
+    }
 }
 
 describe 'Test-AdGroupMemberExists' {
 
+    it 'returns $true if the username is a member of the group' {
+        mock 'Get-AdGroupMember' {
+            @{
+                Name = 'bjones'
+            }
+        }
+
+        $result = Test-AdGroupMemberExists -UserName 'bjones' -GroupName 'groupnamehere'
+            
+        $result | should be $true
+    }
+
+    it 'returns $false if the username is not a member of the group' {
+        mock 'Get-AdGroupMember' {
+            @{
+                Name = 'someotherusernamehere'
+            }
+        }
+
+        $result = Test-AdGroupMemberExists -UserName 'bjones' -GroupName 'groupnamehere'
+        
+        $result | should be $false
+    }
 }
 
 describe 'Test-ADOrganizationalUnitExists' {
+    
+    it 'creates the proper full OU DN and passes to Get-ADOrganizationalUnit' {
+        mock 'Get-ADOrganizationalUnit' {
+            $true
+        }
 
+        $null = Test-ADOrganizationalUnitExists -DistinguishedName 'OU=departmentHere,DC=mylab,DC=local'
+
+        $assMParams = @{
+            CommandName = 'Get-AdOrganizationalUnit'
+            Times = 1
+            Exactly = $true
+            Scope = 'It'
+            ParameterFilter = {$Filter -eq "DistinguishedName -eq 'OU=departmentHere,DC=mylab,DC=local'" }
+        }
+        Assert-MockCalled @assMParams
+    }
+
+    it 'returns $true if the group can be found in AD' {
+
+        $result = Test-ADOrganizationalUnitExists -DistinguishedName 'OU=departmentHere,DC=mylab,DC=local'
+        $result | should be $true
+    }
+
+    it 'returns $false if the group cannot be found in AD' {
+        mock 'Get-ADOrganizationalUnit'
+
+        $result = Test-ADOrganizationalUnitExists -DistinguishedName 'OU=departmentHere,DC=mylab,DC=local'
+        
+        $result | should be $false
+    }
 }
 
 describe 'New-CompanyAdUser' {
 
+    function DecryptSecureString {
+        param($String)
+        [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($String))
+    }
+
+    $securePass = (ConvertTo-SecureString -String 'foo' -AsPlainText -Force)
+    $ptPass = DecryptSecureString -String $securePass
+
+    mock 'Get-ADUserDefaultPassword' {
+        $securePass
+    }
+
+    mock 'New-AdUser'
+
+    mock 'New-Aduser' {
+
+    } -ParameterFilter {
+        $UserPrincipalName -eq 'fLastNameHere' -and
+        $Name -eq 'fLastNameHere' -and
+        $GivenName -eq 'firstNameHere' -and
+        $SurName -eq 'lastNameHere' -and
+        $Title -eq 'titleHere' -and
+        $Department -eq 'departmentHere' -and
+        $SamAccountName -eq 'fLastNameHere' -and
+        (DecryptSecureString $AccountPassword) -eq $ptPass -and
+        $Path -eq 'OU=Users,DC=mylab,DC=local' -and
+        $Enabled -eq $true -and
+        $ChangePasswordAtLogon -eq $true
+    } -Verifiable
+
+    $params = @{
+        Employee = [pscustomobject]@{
+            FirstName = 'firstNameHere'
+            LastName = 'lastNamehere'
+            Department = 'departmenthere'
+            Title = 'titleHere'
+        }
+        Username = 'flastNameHere'
+        OrganizationalUnit = 'OU=Users,DC=mylab,DC=local'
+    }
+    $result = New-CompanyAdUser @params
+
+    it 'should attempt to create an AD user with the proper parameters' {
+
+        Assert-VerifiableMocks
+    }
 }
