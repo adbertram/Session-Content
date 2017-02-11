@@ -1,6 +1,10 @@
 ## TESTS FOR THE SYNC-ADUSER.PS1 SCRIPT. ALL FUNCTIONS WITHIN THIS SCRIPT ALL Have
 ## TESTS FOR EACH OF THEM IN THE ADUSERSYNC MODULE TESTS.
 
+############
+# ARRANGE
+############
+
 ## Pre-populate the dummy CSV file contents we'll be testing with for both active and inactive employees
 ## It's up here because this data is read in multiple tests.
 $getActiveEmployeeOutput = ConvertFrom-Csv -InputObject @'
@@ -101,7 +105,10 @@ describe 'Sync-AdUser - OU tests' {
     mock 'Get-InactiveEmployee'
 
     it 'when an OU does not exist, it should throw an exception' {
-        { & $scriptFilePath } | should throw 'Unable to find the OU'
+
+        ## No assertion for throw here. Since we're catching the exceptions in the foreach loop and returning a non-terminating error
+        $null = & $scriptFilePath -ErrorAction SilentlyContinue -ErrorVariable err
+        $err | should belike 'Unable to find the OU*'
     }
 
 }
@@ -133,7 +140,10 @@ describe 'Sync-AdUser - group tests' {
     mock 'Get-InactiveEmployee'
 
     it 'when a group does not exist, it should throw an exception' {
-        { & $scriptFilePath } | should throw 'Unable to find the group'
+        
+        ## No assertion for throw here. Since we're catching the exceptions in the foreach loop and returning a non-terminating error
+        $null = & $scriptFilePath -ErrorAction SilentlyContinue -ErrorVariable err
+        $err | should belike 'Unable to find the group*'
     }
 
 }
