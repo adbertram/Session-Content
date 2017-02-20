@@ -1,4 +1,4 @@
-configuration NewTestDomain
+configuration NewTestEnvironment
 {        
     Import-DscResource -ModuleName xActiveDirectory             
             
@@ -11,18 +11,28 @@ configuration NewTestDomain
             RebootNodeIfNeeded = $true            
         }
 
-        @($Node.ADGroups).foreach({
+        @($ConfigurationData.NonNodeData.ADGroups).foreach({
             xADGroup $_
             {
                 Ensure = 'Present'
                 GroupName = $_
-                DependsOn = '[xADDomain]DcPromo'
+                DependsOn = '[xADDomain]ADDomain'
+            }
+        })
+
+        @($ConfigurationData.NonNodeData.OrganizationalUnits).foreach({
+            xADOrganizationalUnit $_
+            {
+                Ensure = 'Present'
+                Name = ($_ -replace '-')
+                Path = 'DC=mylab,DC=local'
+                DependsOn = '[xADDomain]ADDomain'
             }
         })
 
         $pw = ConvertTo-SecureString 'P@$$w0rd19' -AsPlainText -Force
         $defaultUserCred = New-Object System.Management.Automation.PSCredential ('administrator',$pw)
-        @($Node.ADUsers).foreach({
+        @($ConfigurationData.NonNodeData.ADUsers).foreach({
             xADUser "$($_.FirstName) $($_.LastName)"
             {
                 Ensure = 'Present'
@@ -31,9 +41,10 @@ configuration NewTestDomain
                 SurName = $_.LastName
                 UserName = ('{0}{1}' -f $_.FirstName.SubString(0,1),$_.LastName)
                 Department = $_.Department
+                Path = "OU=$($_.Department),DC=mylab,DC=local"
                 JobTitle = $_.Title
                 Password = $defaultUserCred
-                DependsOn = '[xADDomain]DcPromo'
+                DependsOn = '[xADDomain]ADDomain'
             }
         })
 
@@ -47,16 +58,16 @@ configuration NewTestDomain
         
         $pw = ConvertTo-SecureString 'p@$$w0rd19' -AsPlainText -Force
         $domainCred = New-Object System.Management.Automation.PSCredential ('administrator',$pw)
-        xADDomain DcPromo            
+        xADDomain ADDomain          
         {             
             DomainName = $ConfigurationData.NonNodeData.DomainName
             DomainAdministratorCredential = $domainCred
             SafemodeAdministratorPassword = $domainCred
             DependsOn = '[WindowsFeature]AD-Domain-Services'
-        }   
+        }
     }         
 } 
 
-NewTestDomain -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1"
-Set-DSCLocalConfigurationManager -Path .\NewTestDomain -Verbose
-Start-DscConfiguration -Wait -Force -Path .\NewTestDomain -Verbose
+NewTestEnvironment -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1"
+Set-DSCLocalConfigurationManager -Path .\NewTestEnvironment -Force -ComputerName DC2 -Verbose
+Start-DscConfiguration -Wait -Force -Path .\NewTestEnvironment -ComputerName DC2 -Verbose
