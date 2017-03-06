@@ -25,7 +25,7 @@ configuration NewTestEnvironment
             {
                 Ensure = 'Present'
                 Name = ($_ -replace '-')
-                Path = 'DC=mylab,DC=local'
+                Path = ('DC={1},DC={1}' -f ($Configuration.NonNodeData.DomainName -split '.')[0],($Configuration.NonNodeData.DomainName -split '.')[1])
                 DependsOn = '[xADDomain]ADDomain'
             }
         })
@@ -41,7 +41,7 @@ configuration NewTestEnvironment
                 SurName = $_.LastName
                 UserName = ('{0}{1}' -f $_.FirstName.SubString(0,1),$_.LastName)
                 Department = $_.Department
-                Path = "OU=$($_.Department),DC=mylab,DC=local"
+                Path = ("OU={0},DC={1},DC={2}" -f $_.Department,($Configuration.NonNodeData.DomainName -split '.')[0],($Configuration.NonNodeData.DomainName -split '.')[1])
                 JobTitle = $_.Title
                 Password = $defaultUserCred
                 DependsOn = '[xADDomain]ADDomain'
@@ -68,6 +68,6 @@ configuration NewTestEnvironment
     }         
 } 
 
-NewTestEnvironment -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1"
+$null = NewTestEnvironment -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1"
 Set-DSCLocalConfigurationManager -Path .\NewTestEnvironment -Force -ComputerName DC2 -Verbose
 Start-DscConfiguration -Wait -Force -Path .\NewTestEnvironment -ComputerName DC2 -Verbose

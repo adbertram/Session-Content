@@ -12,7 +12,7 @@
         }
     )
     NonNodeData = @{
-        DomainName = 'mylab.local'
+        DomainName = 'mytestlab.local'
         SafeModeAdministratorPassword = 'p@$$w0rd12'
         AdGroups = 'Accounting','Information Systems','Executive Office','Janitorial Services'
         OrganizationalUnits = 'Accounting','Information Systems','Executive Office','Janitorial Services'
