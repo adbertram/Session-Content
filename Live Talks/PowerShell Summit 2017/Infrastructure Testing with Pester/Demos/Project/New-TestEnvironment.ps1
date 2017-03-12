@@ -69,5 +69,5 @@ configuration NewTestEnvironment
 } 
 
 $null = NewTestEnvironment -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1"
-Set-DSCLocalConfigurationManager -Path .\NewTestEnvironment -Force -ComputerName DC2 -Verbose
-Start-DscConfiguration -Wait -Force -Path .\NewTestEnvironment -ComputerName DC2 -Verbose
+Set-DSCLocalConfigurationManager -Path .\NewTestEnvironment -Force -ComputerName TESTLABDC -Verbose
+Start-DscConfiguration -Wait -Force -Path .\NewTestEnvironment -ComputerName TESTLABDC -Verbose

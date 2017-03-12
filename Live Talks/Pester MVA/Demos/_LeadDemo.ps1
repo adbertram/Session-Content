@@ -9,7 +9,7 @@
 Find-Module -Name Pester -AllVersions
 
 Install-Module -Name Pester -RequiredVersion 3.4.6
-
+Get-Command -Module Pester
 
 ##############################################
 ## Pester Syntax Intro
