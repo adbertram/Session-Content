@@ -1,4 +1,4 @@
-$artifactsFolder = "C:\Dropbox\GitRepos\Session-Content\Live Talks\PowerShell Summit 2017\Unit Testing A-Z\Demos\Project\Artifacts"
+$artifactsFolder = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\Pester MVA\Demos\Project 1 - PowerShell Project\Artifacts'
 $employeesCsvPath = "$artifactsFolder\Employees.csv"
 
 $csvEmployees = Import-Csv -Path $employeesCsvPath

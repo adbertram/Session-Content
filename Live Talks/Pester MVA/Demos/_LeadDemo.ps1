@@ -6,7 +6,7 @@
 ## Installing Pester
 ##############################################
     ## Github
-    start https://github.com/pester/Pester
+    start 'https://github.com/pester/Pester'
 
     ## PowerShell Gallery
     Find-Module -Name Pester
@@ -47,6 +47,9 @@
             ## Create a file that we know for sure does not have 'foo' in it
             Add-Content -Path TestDrive:\nofoofile.txt -Value 'not here'
 
+            $fooutput = Test-Foo -FilePath TestDrive:\foofile.txt
+            $nofooutput = Test-Foo -FilePath TestDrive:\nofoofile.txt
+
         ## The actual tests (it blocks) inside of the describe block. recommended to use a standard naming convention
         ## when X, it should Y. This is the "Assert" phase.
 
@@ -54,17 +57,17 @@
 
             ## Should "asserts" what the function should return
             ## https://github.com/pester/Pester/wiki/Should
-            $output = Test-Foo -FilePath TestDrive:\foofile.txt
-            $output | should be $true
-            $output | should beoftype 'bool'
-            @($output).Count | should be 1
+           
+            $fooutput | should be $true
+            $fooutput | should beoftype 'bool'
+            @($fooutput).Count | should be 1
 
         }
 
         it 'when the file does not have "foo" in it, it should return $false' {
 
             ## Should "asserts" what the function should return
-            Test-Foo -FilePath TestDrive:\nofoofile.txt | should be $false
+            $nofooutput | should be $false
 
         }
     }
@@ -98,30 +101,33 @@
     }
 
     ## Now let's bring all of this into a Pester test script
-    ii "$demoPath\Test-Foo.Tests.ps1"
-    Invoke-Pester -Path "$demoPath\Test-Foo.Tests.ps1"
+    psedit "$demoPath\Introduction\Test-Foo.Tests.ps1"
+    Invoke-Pester -Path "$demoPath\Introduction\Test-Foo.Tests.ps1"
+
+    ## Look at the Before/After functionality
+    psedit "$demoPath\Introduction\Test-FooV2.Tests.ps1"
 
 ##############################################
 ## Mocking
 ##############################################
 
-    ii "$demoPath\Mocking.ps1"
+    psedit "$demoPath\Introduction\Mocking.ps1"
 
 ##############################################
-## Project 2 - Writing Tests for a PowerShell Project
+## Project 1 - Writing Tests for a PowerShell Project
 ##############################################
 
     ## Run Pester tests to ensure this demo is at the right state
-    & "$demoPath\Project 2 - PowerShell Project\PrepTests.ps1"
+    & "$demoPath\Project 1 - PowerShell Project\PrepTests.ps1"
     ## & "$demoPath\PrepDemo.ps1"
 
     ## Introduce the problem and the script we start with. This script works I suppose but it's impossible to write unit tests against.
-    ii "$demoPath\Project 2 - PowerShell Project\Sync-AdUser-needswork.ps1"
-    & "$demoPath\Project 2 - PowerShell Project\Sync-AdUser-needswork.ps1" -Verbose
+    psedit "$demoPath\Project 1 - PowerShell Project\Sync-AdUser-needswork.ps1"
+    & "$demoPath\Project 1 - PowerShell Project\Sync-AdUser-needswork.ps1" -Verbose
 
     ## Clean up AD --demo stuff
-    & "$demoPath\Project 2 - PowerShell Project\PrepDemo.ps1"
-    & "$demoPath\Project 2 - PowerShell Project\PrepTests.ps1"
+    & "$demoPath\Project 1 - PowerShell Project\PrepDemo.ps1"
+    & "$demoPath\Project 1 - PowerShell Project\PrepTests.ps1"
 
     ##############################################
     ## Step #1: Readying code for testing
@@ -153,23 +159,23 @@
         #>
 
         ## 2. Create functions for each specific task
-        ii "$demoPath\Project 2 - PowerShell Project\Module\AdUserSync.psm1"
+        psedit "$demoPath\Project 1 - PowerShell Project\Module\AdUserSync.psm1"
 
         ## 3. Refactor script to use new functions
-        ii "$demoPath\Project 2 - PowerShell Project\Sync-AdUser.ps1"
+        psedit "$demoPath\Project 1 - PowerShell Project\Sync-AdUser.ps1"
 
     ##############################################
     ## Step #2: Building the tests
     ##############################################
 
         ## 1. Build a test 'framework' for all module functions (helpers)
-        ii "$demoPath\Project 2 - PowerShell Project\TestFramework.ps1"
+        psedit "$demoPath\Project 1 - PowerShell Project\TestFramework.ps1"
 
         ## 2. Build tests for our "helper" functions in the module
-        ii "$demoPath\Project 2 - PowerShell Project\Module\AdUserSync.Tests.ps1"
+        psedit "$demoPath\Project 1 - PowerShell Project\Module\AdUserSync.Tests.ps1"
 
         ## 3. Build tests for how these functions are invoke in the script
-        ii "$demoPath\Project 2 - PowerShell Project\Sync-AdUser.Tests.ps1"
+        psedit "$demoPath\Project 1 - PowerShell Project\Sync-AdUser.Tests.ps1"
 
 
     ##############################################
@@ -177,11 +183,11 @@
     ##############################################
 
     ## Remove all of the stuff we did to the environment to prove a point
-     & "$demoPath\Project 2 - PowerShell Project\PrepDemo.ps1"
+     & "$demoPath\Project 1 - PowerShell Project\PrepDemo.ps1"
 
     ## Run tests
-    Invoke-Pester -Path "$demoPath\Project 2 - PowerShell Project\Module\AdUserSync.Tests.ps1"
-    Invoke-Pester -Path "$demoPath\Project 2 - PowerShell Project\Sync-AdUser.Tests.ps1"
+    Invoke-Pester -Path "$demoPath\Project 1 - PowerShell Project\Module\AdUserSync.Tests.ps1"
+    Invoke-Pester -Path "$demoPath\Project 1 - PowerShell Project\Sync-AdUser.Tests.ps1"
 
 
 ##############################################
@@ -195,10 +201,10 @@ start 'https://github.com/adbertram/TestDomainCreator'
 start 'https://ci.appveyor.com/project/adbertram/testdomaincreator'
 
 ## The DSC Configuration
-ii "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
+psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
 
 ## The tests
-ii "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.Tests.ps1"
+psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.Tests.ps1"
 
 ## Make a change to fail the build
 
@@ -218,7 +224,7 @@ start 'https://msdn.microsoft.com/en-us/powershell/gallery/psgallery/psgallery_f
 #>
 
 ## My module I'd like to upload to the PowerShell Gallery
-ii 'C:\Dropbox\GitRepos\PSWebDeploy\PSWebDeploy.psm1'
+psedit 'C:\Dropbox\GitRepos\PSWebDeploy\PSWebDeploy.psm1'
 
 describe 'PowerShell Gallery Tests' {
 

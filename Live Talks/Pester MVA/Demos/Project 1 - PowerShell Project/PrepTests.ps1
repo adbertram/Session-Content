@@ -1,4 +1,4 @@
-$artifactsFolder = "C:\Dropbox\GitRepos\Session-Content\Live Talks\PowerShell Summit 2017\Unit Testing A-Z\Demos\Project\Artifacts"
+$artifactsFolder = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\Pester MVA\Demos\Project 1 - PowerShell Project\Artifacts'
 $employeesCsvPath = "$artifactsFolder\Employees.csv"
 
 describe 'CSV file' {
@@ -27,7 +27,7 @@ describe 'Active Directory' {
 
 		$expectedOus = $csvEmployees | foreach { "OU=$($_.Department),DC=mylab,DC=local" } | Select -Unique
 		
-		$actualOus = Get-ADOrganizationalUnit -Filter * | Select-Object -ExpandProperty DistinguishedName
+		$actualOus = Get-ADOrganizationalUnit -Server DC -Filter * | Select-Object -ExpandProperty DistinguishedName
 		@($actualOus | where { $_ -in $expectedOus }).Count | should be @($expectedOus).Count
 
 	}
@@ -36,7 +36,7 @@ describe 'Active Directory' {
 
 		$expectedGroups = $csvEmployees | foreach { $_.Department } | Select -Unique
 		
-		$actualGroups = Get-ADGroup -Filter * | Select-Object -ExpandProperty Name
+		$actualGroups = Get-ADGroup -Server DC -Filter * | Select-Object -ExpandProperty Name
 		@($actualGroups | where { $_ -in $expectedGroups }).Count | should be @($expectedGroups).Count
 
 	}
@@ -48,7 +48,7 @@ describe 'Active Directory' {
 			$firstInitial = $user.FirstName.SubString(0,1)
     		$userName = '{0}{1}' -f $firstInitial,$user.LastName
 			
-			Get-AdUser -Filter "samAccountName -eq '$userName'" | should benullorEmpty
+			Get-AdUser -Server DC -Filter "samAccountName -eq '$userName'" | should benullorEmpty
 		}	
 	}
 }
