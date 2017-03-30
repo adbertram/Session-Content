@@ -183,17 +183,74 @@
     Invoke-Pester -Path "$demoPath\Project 2 - PowerShell Project\Module\AdUserSync.Tests.ps1"
     Invoke-Pester -Path "$demoPath\Project 2 - PowerShell Project\Sync-AdUser.Tests.ps1"
 
-##############################################
-## Testing DSC
-##############################################
-
 
 ##############################################
-## Project 3 - Automating DSC Configuration Tests
+## Project 3 - Automating DSC Configuration Tests (Infrastructure Testing)
 ##############################################
 
+## The TestDomainCreator Project
+start 'https://github.com/adbertram/TestDomainCreator'
 
+## AppVeyor
+start 'https://ci.appveyor.com/project/adbertram/testdomaincreator'
 
+## The DSC Configuration
+ii "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
 
+## The tests
+ii "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.Tests.ps1"
 
+## Make a change to fail the build
 
+## Correct the change and make the build pass
+
+##############################################
+## Project 4 - Writing Tests for the PowerShell Gallery
+##############################################
+
+start 'https://msdn.microsoft.com/en-us/powershell/gallery/psgallery/psgallery_faqs'
+
+<#
+    - Must have a module manifest
+    - Must have certain keys in the manifest
+    - Must have Pester tests (recommended)
+    - Passes default PSScriptAnalyzer rules (recommended)
+#>
+
+## My module I'd like to upload to the PowerShell Gallery
+ii 'C:\Dropbox\GitRepos\PSWebDeploy\PSWebDeploy.psm1'
+
+describe 'PowerShell Gallery Tests' {
+
+    $moduleFolder = 'C:\Dropbox\GitRepos\PSWebDeploy'
+    $moduleManifestPath = "$moduleFolder\PSWebDeploy.psd1"
+    $manifest = Import-PowerShellDataFile -Path $moduleManifestPath -ErrorAction Ignore
+
+    it 'must have a module manifest with the same name as the module' {
+        $moduleManifestPath | should exist
+    }
+
+    it 'must have the Description manifest key populated' {
+        $manifest.Description | should not benullorempty
+    }
+
+    it 'must have the Author manifest key populated' {
+        $manifest.Author | should not benullorempty
+    }
+
+    it 'must have either the LicenseUri or ProjectUri manifest key populated' {
+        ($manifest.PrivateData.PSData.LicenseUri + $manifest.PrivateData.PSData.ProjectUri) | should not benullorempty
+    }
+
+    it 'must pass Test-ModuleManifest validation' {
+        Test-ModuleManifest -Path "$moduleFolder\PSWebDeploy.psm1" -ErrorAction SilentlyContinue | should be $true
+    }
+
+    it 'must have associated Pester tests' {
+        Test-Path -Path "$moduleFolder\PSWebDeploy.Tests.ps1" | should be $true
+    }
+
+    it 'must pass all default PSScriptAnalyzer rules' {
+        Invoke-ScriptAnalyzer -Path "$moduleFolder\PSWebDeploy.psm1" -ExcludeRule 'PSUseDeclaredVarsMoreThanAssignments' | should benullorempty
+    }
+}
