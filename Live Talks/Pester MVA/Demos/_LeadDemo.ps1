@@ -16,7 +16,7 @@
     Get-Command -Module Pester
 
 ##############################################
-## Project 1 - Simple TDD Example
+## Simple TDD Example
 ##############################################
     <# Define what we want to do
         Create a function that parses a line of text from a file. We know what the function should return we just don't know
@@ -191,8 +191,16 @@
 
 
 ##############################################
-## Project 3 - Automating DSC Configuration Tests (Infrastructure Testing)
+## Project 2 - Automating DSC Configuration Tests (Infrastructure Testing)
 ##############################################
+
+<# Steps
+    - Write DSC configuration
+    - Check in DSC code to Github
+    - AppVeyor build automatically kicks off with current code
+      - DSC configuration is applied to an existing Azure VM
+    - AppVeyor kicks off Pester tests to ensure DSC configuration did as expected
+#>
 
 ## The TestDomainCreator Project
 start 'https://github.com/adbertram/TestDomainCreator'
@@ -200,18 +208,21 @@ start 'https://github.com/adbertram/TestDomainCreator'
 ## AppVeyor
 start 'https://ci.appveyor.com/project/adbertram/testdomaincreator'
 
-## The DSC Configuration
+## The DSC Configuration that AppVeyor will apply to our Azure VM
 psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
 
-## The tests
+## The tests that AppVeyor will kick off automatically after running the build.
 psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.Tests.ps1"
+
+## The AppVeyor build script to tie everything together
+psedit "C:\Dropbox\GitRepos\TestDomainCreator\buildscripts\build.ps1"
 
 ## Make a change to fail the build
 
 ## Correct the change and make the build pass
 
 ##############################################
-## Project 4 - Writing Tests for the PowerShell Gallery
+## Project 3 - Writing Tests for the PowerShell Gallery
 ##############################################
 
 start 'https://msdn.microsoft.com/en-us/powershell/gallery/psgallery/psgallery_faqs'
