@@ -189,40 +189,8 @@
     Invoke-Pester -Path "$demoPath\Project 1 - PowerShell Project\Module\AdUserSync.Tests.ps1"
     Invoke-Pester -Path "$demoPath\Project 1 - PowerShell Project\Sync-AdUser.Tests.ps1"
 
-
 ##############################################
-## Project 2 - Automating DSC Configuration Tests (Infrastructure Testing)
-##############################################
-
-<# Steps
-    - Write DSC configuration
-    - Check in DSC code to Github
-    - AppVeyor build automatically kicks off with current code
-      - DSC configuration is applied to an existing Azure VM
-    - AppVeyor kicks off Pester tests to ensure DSC configuration did as expected
-#>
-
-## The TestDomainCreator Project
-start 'https://github.com/adbertram/TestDomainCreator'
-
-## AppVeyor
-start 'https://ci.appveyor.com/project/adbertram/testdomaincreator'
-
-## The DSC Configuration that AppVeyor will apply to our Azure VM
-psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
-
-## The tests that AppVeyor will kick off automatically after running the build.
-psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.Tests.ps1"
-
-## The AppVeyor build script to tie everything together
-psedit "C:\Dropbox\GitRepos\TestDomainCreator\buildscripts\build.ps1"
-
-## Make a change to fail the build
-
-## Correct the change and make the build pass
-
-##############################################
-## Project 3 - Writing Tests for the PowerShell Gallery
+## Project 2 - Writing Tests for the PowerShell Gallery
 ##############################################
 
 start 'https://msdn.microsoft.com/en-us/powershell/gallery/psgallery/psgallery_faqs'
@@ -271,3 +239,46 @@ describe 'PowerShell Gallery Tests' {
         Invoke-ScriptAnalyzer -Path "$moduleFolder\PSWebDeploy.psm1" -ExcludeRule 'PSUseDeclaredVarsMoreThanAssignments' | should benullorempty
     }
 }
+
+
+##############################################
+## Project 3 - Automating DSC Configuration Tests (Infrastructure Testing)
+##############################################
+
+<# Steps
+    - Write DSC configuration
+    - Check in DSC code to Github
+    - AppVeyor build automatically kicks off with current code
+      - DSC configuration is applied to an existing Azure VM
+    - AppVeyor kicks off Pester tests to ensure DSC configuration did as expected
+    - AppVeyor uploads results to nUnit capable view
+    - We bask in the glory of passed tests (hopefully)
+#>
+
+## The TestDomainCreator Project
+start 'https://github.com/adbertram/TestDomainCreator'
+
+## AppVeyor
+start 'https://ci.appveyor.com/project/adbertram/testdomaincreator'
+
+## The DSC Configuration that AppVeyor will apply to our Azure VM
+psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
+
+## The tests that AppVeyor will kick off automatically after running the build.
+psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.Tests.ps1"
+
+## The AppVeyor build script to tie everything together
+psedit "C:\Dropbox\GitRepos\TestDomainCreator\buildscripts\build.ps1"
+
+## Make a change to invoke the build. Build should pass
+
+    ## We'll just remove the AD groups by changing 'Present' to 'Absent'. Since tests are still configured to confirm
+    ## those groups should be there, the build will fail.
+    psedit "C:\Dropbox\GitRepos\TestDomainCreator\NewTestEnvironment.ps1"
+
+
+
+## Make a change to the DSC script to make actual config and test out of sync. Build should fail.
+
+
+## Correct the change and make the build pass
