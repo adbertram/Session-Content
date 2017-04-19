@@ -30,7 +30,7 @@ configuration NewTestEnvironment
                 }
             })
 
-        $pw = ConvertTo-SecureString 'P@$$w0rd19' -AsPlainText -Force
+        $pw = ConvertTo-SecureString 'DoNotDoThis.' -AsPlainText -Force
         $defaultUserCred = New-Object System.Management.Automation.PSCredential ('administrator', $pw)
         @($ConfigurationData.NonNodeData.ADUsers).foreach( {
                 xADUser "$($_.FirstName) $($_.LastName)"
@@ -56,7 +56,7 @@ configuration NewTestEnvironment
                 }
             })        
         
-        $pw = ConvertTo-SecureString 'p@$$w0rd19' -AsPlainText -Force
+        $pw = ConvertTo-SecureString 'DoNotDoThis.' -AsPlainText -Force
         $domainCred = New-Object System.Management.Automation.PSCredential ('administrator', $pw)
         xADDomain ADDomain          
         {             
@@ -68,8 +68,10 @@ configuration NewTestEnvironment
     }         
 } 
 
+## Download the AD DSC modules
+#SInvoke-Command -ComputerName TESTLABDC -ScriptBlock { Install-Module -Name xActiveDirectory -Force }
 
-Set-Location 'C:\Dropbox\GitRepos\Session-Content\Live Talks\PowerShell Summit 2017\Infrastructure Testing with Pester\Demos\Project'
-$null = NewTestEnvironment -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1" -WarningAction SilentlyContinue
-Set-DSCLocalConfigurationManager -Path .\NewTestEnvironment -ComputerName TESTLABDC
-Start-DscConfiguration -Wait -Force -Path .\NewTestEnvironment -ComputerName TESTLABDC
+Set-Location 'C:\Dropbox\GitRepos\Session-Content\Live Talks\Youtube Live\Infrastructure Testing with Pester\Demos\Project'
+$null = NewTestEnvironment -ConfigurationData "$PSScriptRoot\ConfigurationData.psd1" -WarningAction SilentlyContinue -Verbose
+Set-DSCLocalConfigurationManager -Path .\NewTestEnvironment -ComputerName TESTLABDC -Verbose -Force
+Start-DscConfiguration -Wait -Force -Path .\NewTestEnvironment -ComputerName TESTLABDC -Verbose

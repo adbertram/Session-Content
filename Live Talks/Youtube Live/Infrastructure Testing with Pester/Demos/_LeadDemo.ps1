@@ -1,25 +1,27 @@
-$demoPath = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\PowerShell Summit 2017\Infrastructure Testing with Pester\Demos'
+$demoPath = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\Youtube Live\Infrastructure Testing with Pester\Demos'
 
 ## DEMO 1 - Infrastructure Testing 101
-ii "$demoPath\Introduction\Infrastructure Testing 101.ps1"
+psedit "$demoPath\Introduction\Infrastructure Testing 101.ps1"
 
-## DEMO 2 - Reviewing the DSC configuration
-ii "$demoPath\Project\New-TestEnvironment.ps1"
+## DEMO 2 - Reviewing the DSC configuration and making it happen
+psedit "$demoPath\Project\ConfigurationData.psd1"
+psedit "$demoPath\Project\New-TestEnvironment.ps1"
+& "$demoPath\Project\New-TestEnvironment.ps1"
 
 ## DEMO 3 - Dealing with Dependencies
-ii "$demoPath\Introduction\Dealing with Dependencies.ps1"
+psedit "$demoPath\Introduction\Dealing with Dependencies.ps1"
 
 ## DEMO 4 - Defining Expected Behavior
-ii "$demoPath\Introduction\Defining Expected Behavior.ps1"
+psedit "$demoPath\Introduction\Defining Expected Behavior.ps1"
 
 ## DEMO 5 - Creating the Tests
-ii "$demoPath\Introduction\Creating Pester Tets.ps1"
+psedit "$demoPath\Introduction\Creating Pester Tests.ps1"
 
-## DEMO 6 - Creating the Tests
-ii "$demoPath\Introduction\Cleanup.ps1"
+## DEMO 6 - Cleaning up the mess
+psedit "$demoPath\Introduction\Cleanup.ps1"
 
 ## DEMO 7 - Putting it all together
-ii "$demoPath\New-TestEnvironment.Tests.ps1"
+psedit "$demoPath\Project\New-TestEnvironment.Tests.ps1"
 
 $invPesterParams = @{
     Path = "$demoPath\Project\New-TestEnvironment.Tests.ps1"

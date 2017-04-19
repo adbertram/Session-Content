@@ -36,14 +36,14 @@
                 Title = 'Software Developer'
             }
             @{
-                FirstName = 'Barack'
-                LastName = 'Obama'
+                FirstName = 'Bob'
+                LastName = 'Jones'
                 Department = 'Executive Office'
                 Title = 'CEO'
             }
             @{
-                FirstName = 'Donald'
-                LastName = 'Trump'
+                FirstName = 'Don'
+                LastName = 'Baker'
                 Department = 'Janitorial Services'
                 Title = 'Custodian'
             }

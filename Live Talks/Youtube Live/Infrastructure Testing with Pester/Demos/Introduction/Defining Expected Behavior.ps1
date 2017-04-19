@@ -1,4 +1,4 @@
-$demoPath = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\PowerShell Summit 2017\Infrastructure Testing with Pester\Demos'
+$demoPath = 'C:\Dropbox\GitRepos\Session-Content\Live Talks\Youtube Live\Infrastructure Testing with Pester\Demos'
 
 ## Read the expected attributes from ConfigurationData
 $expectedAttributes = Import-PowerShellDataFile -Path "$demoPath\Project\ConfigurationData.psd1"
